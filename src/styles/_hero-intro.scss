@@ -1,0 +1,69 @@
+@import 'animations';
+.hero-intro {
+  height: 100%;
+  width: 100%;
+  @include grid(1fr, 1fr 0.3fr);
+}
+.hero-intro-inactive {
+  display: none;
+}
+.title-cont {
+  @include grid(1fr, 1fr);
+  justify-items: center;
+  align-items: center;
+  width: 95%;
+  margin: auto;
+  position: relative;
+  h1 {
+    color: $cultured;
+    font-size: 5rem;
+    width: 95%;
+    letter-spacing: 0.2rem;
+    overflow: hidden;
+    border-right: 0.15rem solid $portland;
+    white-space: nowrap;
+    margin: 0 auto;
+    text-align: center;
+    animation: typewriter 2s steps(30, end), caret 0.75s step-end infinite;
+  }
+}
+.button-wrapper {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  height: 7vh;
+  button {
+    width: 100%;
+    height: 100%;
+    border-radius: 0.5rem;
+    color: $cultured;
+    background: rgba(67, 67, 67);
+    box-shadow: 9px 5px 12px -3px rgba(0, 0, 0, 0.74);
+    -webkit-box-shadow: 9px 5px 12px -3px rgba(0, 0, 0, 0.74);
+    -moz-box-shadow: 9px 5px 12px -3px rgba(0, 0, 0, 0.74);
+    transition: all 100ms ease-in-out;
+  }
+  button:hover,
+  button:focus {
+    background: $portland;
+  }
+}
+.img-cont {
+  @include grid(repeat(2, 1fr), 1fr);
+  width: 95%;
+  height: 100%;
+  margin: auto;
+}
+
+.left-img-cont {
+  background: url('../img/warfare-ship.png') center no-repeat;
+  background-size: contain;
+  animation: reveal 2s ease-in-out;
+}
+.right-img-cont {
+  background: url('../img/destroyer.png') center no-repeat;
+  background-size: contain;
+  animation: reveal 2s ease-in-out;
+}
