@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./main.css" />
+    <title><%= htmlWebpackPlugin.options.title %></title>
+  </head>
+  <body>
+    <header>
+      <div class="logo-wrapper"></div>
+      <div class="logo-text">
+        <h1>BATTLESHIP</h1>
+      </div>
+    </header>
+    <div class="hero-intro">
+      <div class="title-cont"><h1 class="title">BATTLESHIP</h1></div>
+      <div class="button-wrapper">
+        <button class="play-now">Play Now!</button>
+      </div>
+      <div class="img-cont">
+        <div class="left-img-cont"></div>
+        <div class="right-img-cont"></div>
+      </div>
+    </div>
+    <main>
+      <section class="player">
+        <aside class="ship-info">
+          <div class="patrol ship-cont"></div>
+          <div class="cruiser ship-cont"></div>
+          <div class="cruiser ship-cont"></div>
+          <div class="battleship ship-cont"></div>
+          <div class="carrier ship-cont"></div>
+        </aside>
+        <div class="board"></div>
+        <aside class="controls">
+          <div class="game-button-wrapper">
+            <button class="rotate" title="Rotate Ship">
+              <i class="fas fa-sync-alt"></i>
+            </button>
+          </div>
+          <div class="game-button-wrapper">
+            <button class="play-again" title="Play again!">
+              <i class="fas fa-power-off"></i>
+            </button>
+          </div>
+        </aside>
+      </section>
+      <section class="ai">
+        <div class="board board-ai"></div>
+        <aside class="ship-info ship-info-ai">
+          <div class="patrol ship-cont"></div>
+          <div class="cruiser ship-cont"></div>
+          <div class="cruiser ship-cont"></div>
+          <div class="battleship ship-cont"></div>
+          <div class="carrier ship-cont"></div>
+        </aside>
+      </section>
+    </main>
+  </body>
+</html>
