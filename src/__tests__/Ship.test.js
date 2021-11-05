@@ -9,13 +9,13 @@ it('testing horizontal orientation', () => {
 
 it('ship positioning on coord 5', () => {
   cruiser.orientation = 'vertical';
-  cruiser.position = 5;
+  cruiser.position(5, 'vertical');
   expect(cruiser.getPosition).toContain(15);
 });
 
 describe('testing hits', () => {
   beforeEach(() => {
-    cruiser.reset();
+    cruiser.resetHits();
   });
   it('ship is hit but not sunk', () => {
     cruiser.hit(5);
@@ -28,5 +28,20 @@ describe('testing hits', () => {
     cruiser.hit(6);
     cruiser.hit(7);
     expect(cruiser.isSunk()).toBe(true);
+  });
+});
+
+describe('testing hardReset', () => {
+  beforeEach(() => {
+    cruiser.hardReset();
+  });
+  it('testing hard reset - position', () => {
+    expect(cruiser.getPosition.length).toBe(0);
+  });
+  it('testing hard reset - orientation', () => {
+    expect(cruiser.getOrientation).toBe('vertical');
+  });
+  it('testing hard reset - hits', () => {
+    expect(cruiser.getHits.length).toBe(0);
   });
 });
