@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import calculateShipPosition from './helpers';
 
 export default class Ship {
@@ -30,10 +29,10 @@ export default class Ship {
     return this.#orientation;
   }
 
-  set position(coord) {
+  position(coord, direction) {
     // resetting any existing data & filling it with new data
     this.#position = [];
-    calculateShipPosition(coord, this.#length, this.getOrientation).forEach(
+    calculateShipPosition(coord, this.#length, direction).forEach(
       (coordinate) => this.#position.push(coordinate)
     );
   }
@@ -54,7 +53,13 @@ export default class Ship {
     return Number(this.getHits.length) === Number(this.length);
   }
 
-  reset() {
+  resetHits() {
+    this.#hits.length = 0;
+  }
+
+  hardReset() {
+    this.#position.length = 0;
+    this.#orientation = 'vertical';
     this.#hits.length = 0;
   }
 }
