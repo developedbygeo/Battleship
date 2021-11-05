@@ -3,8 +3,6 @@ import calculateShipPosition from './helpers.js';
 export default class Gameboard {
   #width;
 
-  #area;
-
   #currentShips;
 
   constructor() {
