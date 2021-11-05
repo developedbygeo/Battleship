@@ -1,19 +1,90 @@
 import Gameboard from '../modules/Gameboard.js';
+import Ship from '../modules/Ship.js';
 
 const testInstance = new Gameboard();
+const newCarrier = new Ship('cruiser', 3);
 
-it('missedAttacks should be empty', () => {
-  expect(testInstance.missedAttacks).toEqual([]);
-});
-it('no ships on board', () => {
-  expect(testInstance.getCurrentShipsOnBoard).toEqual([]);
-});
-it('should return true for valid position', () => {
-  expect(testInstance.isPositionValid(5, 3, 'horizontal')).toBe(true);
-});
-it('should return false due to invalid position', () => {
-  expect(testInstance.isPositionValid(5, 99, 'horizontal')).toBe(false);
-});
-it('should return false due to invalid - rotated position', () => {
-  expect(testInstance.isPositionValid(5, 99, 'vertical', true)).toBe(false);
+describe('testing the Gameboard', () => {
+  afterEach(() => {
+    testInstance.hardReset();
+  });
+
+  it('setting ship on currentShips', () => {
+    testInstance.setCurrentShips(newCarrier);
+    expect(testInstance.getCurrentShipsOnBoard.length).toBe(1);
+  });
+
+  it('missedAttacks should be empty', () => {
+    expect(testInstance.missedShots).toEqual([]);
+  });
+
+  it('no ships on board', () => {
+    expect(testInstance.getCurrentShipsOnBoard).toEqual([]);
+  });
+
+  it('should return true for valid position', () => {
+    expect(testInstance.isPositionValid(5, 3, 'horizontal')).toBe(true);
+  });
+
+  it('should return false due to ship overlap', () => {
+    testInstance.placeShip(22, new Ship('carrier', 4));
+    expect(testInstance.isPositionValid(31, 3, 'horizontal')).toBe(false);
+  });
+
+  it('should return false due to invalid position', () => {
+    expect(testInstance.isPositionValid(5, 99, 'horizontal')).toBe(false);
+  });
+
+  it('should return false due to invalid - rotated position', () => {
+    expect(testInstance.isPositionValid(5, 99, 'vertical', true)).toBe(false);
+  });
+
+  it('should return false due to valid - rotated position', () => {
+    expect(testInstance.isPositionValid(5, 11, 'horizontal', true)).toBe(true);
+  });
+
+  it('invalid placeShip - return false', () => {
+    newCarrier.position(99, 'vertical');
+    expect(testInstance.placeShip(99, newCarrier)).toBe(false);
+  });
+
+  it('valid placeShip - push to array', () => {
+    newCarrier.position(23, 'vertical');
+    testInstance.placeShip(23, newCarrier);
+    expect(testInstance.getCurrentShipsOnBoard.length).toBe(1);
+  });
+
+  it('invalid rotateShip', () => {
+    newCarrier.position(48, 'vertical');
+    expect(() => {
+      testInstance.rotateShip(newCarrier);
+    }).toThrow('Invalid positioning');
+  });
+
+  it('valid rotateShip', () => {
+    newCarrier.position(35, 'vertical');
+    testInstance.rotateShip(newCarrier);
+    expect(newCarrier.getPosition[0]).toBe(35);
+  });
+
+  it('fired a duplicate shot to the same spot', () => {
+    newCarrier.position(35, 'horizontal');
+    testInstance.setCurrentShips(newCarrier);
+    testInstance.attackedCoords.push(35);
+    expect(() => {
+      testInstance.shotFired(35);
+    }).toThrow('A shot has already been fired here!');
+  });
+
+  it('successfull shot, shotResult array is updated', () => {
+    newCarrier.position(35, 'horizontal');
+    testInstance.setCurrentShips(newCarrier);
+    expect(testInstance.shotFired(35).length).toEqual(1);
+  });
+
+  it('1 ship is alive and well', () => {
+    newCarrier.position(35, 'horizontal');
+    testInstance.setCurrentShips(newCarrier);
+    expect(testInstance.shipsAlive()).toBe(1);
+  });
 });
