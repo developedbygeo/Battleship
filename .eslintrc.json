@@ -14,6 +14,8 @@
     "no-unused-vars": "warn",
     "no-console": "warn",
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
-    "import/extensions": "off"
+    "import/extensions": "off",
+    "consistent-return": "off",
+    "no-param-reassign": "off"
   }
 }

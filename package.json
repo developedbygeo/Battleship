@@ -1,5 +1,5 @@
 {
-  "name": "weather-app",
+  "name": "battleship",
   "type": "module",
   "quokka": {
     "babel": true
@@ -8,7 +8,7 @@
   "description": "",
   "private": true,
   "scripts": {
-    "test": "jest --watchAll",
+    "test": "jest --watchAll --coverage",
     "build": "export NODE_ENV=production && webpack",
     "watch": "webpack --watch",
     "start": "webpack serve --mode=development --open"
@@ -44,7 +44,6 @@
     "webpack-dev-server": "^4.3.1"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.15.4",
-    "lodash": "^4.17.21"
+    "@fortawesome/fontawesome-free": "^5.15.4"
   }
 }
