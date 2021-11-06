@@ -6,7 +6,6 @@ export default class Controller {
     this.playerAi = new Player('AI');
     this.currentPlayers = [this.playerHuman, this.playerAi];
     this.turn = 0;
-    // this.playerTurn = this.currentPlayers[this.turn];
   }
 
   changeTurn() {
