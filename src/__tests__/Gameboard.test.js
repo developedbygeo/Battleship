@@ -87,4 +87,19 @@ describe('testing the Gameboard', () => {
     testInstance.setCurrentShips(newCarrier);
     expect(testInstance.shipsAlive()).toBe(1);
   });
+
+  it('#16 testing available cells - successfull query - cells taken', () => {
+    testInstance.attackedCoords = [0, 1, 2, 3, 4];
+    expect(testInstance.remainingCells().length).toBe(95);
+  });
+
+  it('#17 testing available cells - successfull query - all cells available', () => {
+    testInstance.attackedCoords = [];
+    expect(testInstance.remainingCells().length).toBe(100);
+  });
+
+  it('#18 testing available cells - unsuccessfull query - all cells taken', () => {
+    testInstance.attackedCoords = [...Array(100).keys()];
+    expect(testInstance.remainingCells().length).toBe(0);
+  });
 });
