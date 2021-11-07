@@ -51,4 +51,83 @@ describe('testing the Player class', () => {
   it('#10 testing checkTurn and play methods, expecting You', () => {
     expect(testController.play()).toBe('You');
   });
+
+  it('#11 testing default state of gameOver', () => {
+    expect(testController.gameOver).toBe(false);
+  });
+
+  it('#12 testing gameOver through play', () => {
+    testController.gameOver = true;
+    expect(testController.play()).toBe('Game Over');
+  });
+
+  it('#13 testing fleet creation through Controller (random placement) for playerHuman', () => {
+    testController.playerHuman.createFleet();
+    testController.playerHuman.randomPlacement();
+    expect(testController.playerHuman.board.getCurrentShipsOnBoard.length).toBe(
+      5
+    );
+  });
+
+  it('#14 testing fleet creation through Controller (random placement)for playerAI', () => {
+    testController.playerAi.createFleet();
+    testController.playerAi.randomPlacement();
+    expect(testController.playerAi.board.getCurrentShipsOnBoard.length).toBe(5);
+  });
+
+  it('#15 testing findLoserParty with no ships left (Human winner)', () => {
+    testController.playerAi.createFleet();
+    testController.playerAi.randomPlacement();
+    testController.playerAi.board.hardReset();
+    expect(testController.findLoserParty()).toBe('You');
+  });
+
+  it('#16 testing findLoserParty with no ships left (AI winner)', () => {
+    testController.playerHuman.createFleet();
+    testController.playerHuman.randomPlacement();
+    expect(testController.findLoserParty()).toBe('AI');
+  });
+
+  it('#17 testing findLoserParty with ships left (Error trigger)', () => {
+    testController.playerHuman.createFleet();
+    testController.playerHuman.randomPlacement();
+    testController.playerAi.createFleet();
+    testController.playerAi.randomPlacement();
+    expect(() => {
+      testController.findLoserParty();
+    }).toThrow('Oops, no one has lost yet!');
+  });
+});
+
+describe('random AI selection', () => {
+  beforeEach(() => {
+    testController = new Controller();
+    testController.playerHuman.board.attackedCoords = [...Array(99).keys()];
+  });
+
+  it('#18 randomAI successfull', () => {
+    expect(testController.randomAI()).toBe(99);
+  });
+});
+
+describe('random AI selection failed', () => {
+  beforeEach(() => {
+    testController = new Controller();
+    testController.playerHuman.board.attackedCoords = [...Array(100).keys()];
+  });
+
+  it('#19 randomAI successfull', () => {
+    expect(testController.randomAI()).toBe(undefined);
+  });
+});
+
+describe('testing randomAI range', () => {
+  beforeEach(() => {
+    testController = new Controller();
+    testController.playerHuman.board.attackedCoords = [...Array(51).keys()];
+  });
+
+  it('#20 randomAI successfull and over certain range', () => {
+    expect(testController.randomAI()).toBeGreaterThanOrEqual(51);
+  });
 });
