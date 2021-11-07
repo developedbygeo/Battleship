@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import calculateShipPosition from './helpers.js';
 
 export default class Gameboard {
@@ -7,6 +8,7 @@ export default class Gameboard {
 
   constructor() {
     this.#width = 10;
+    this.area = _.range(0, this.#width ** 2).sort((a, b) => a - b);
     this.missedShots = [];
     this.#currentShips = [];
     this.attackedCoords = [];
@@ -114,6 +116,10 @@ export default class Gameboard {
       }
     });
     return aliveShips;
+  }
+
+  remainingCells() {
+    return this.area.filter((cell) => !this.attackedCoords.includes(cell));
   }
 
   hardReset() {
