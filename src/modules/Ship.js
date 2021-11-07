@@ -1,4 +1,4 @@
-import calculateShipPosition from './helpers';
+import calculateShipPosition from './helpers.js';
 
 export default class Ship {
   #orientation;
