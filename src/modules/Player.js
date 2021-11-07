@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import _ from 'lodash';
 import Gameboard from './Gameboard.js';
 import Ship from './Ship.js';
@@ -39,5 +40,13 @@ export default class Player {
       }
       this.board.placeShip(randomCoord, ship);
     });
+  }
+
+  attack(board, coord) {
+    board.shotFired(coord);
+  }
+
+  fleetReset() {
+    this.fleet.forEach((ship) => ship.hardReset());
   }
 }
