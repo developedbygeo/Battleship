@@ -118,7 +118,10 @@ export default class Gameboard {
     return aliveShips;
   }
 
-  remainingCells() {
+  remainingCells(valid = undefined) {
+    if (valid) {
+      return valid.filter((cell) => !this.attackedCoords.includes(cell));
+    }
     return this.area.filter((cell) => !this.attackedCoords.includes(cell));
   }
 
