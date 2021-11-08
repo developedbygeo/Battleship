@@ -102,4 +102,10 @@ describe('testing the Gameboard', () => {
     testInstance.attackedCoords = [...Array(100).keys()];
     expect(testInstance.remainingCells().length).toBe(0);
   });
+
+  it('#19 valid placeShip - testing what is pushed', () => {
+    newCarrier.position(23, 'vertical');
+    testInstance.placeShip(23, newCarrier);
+    expect(testInstance.getCurrentShipsOnBoard[0].getPosition).toContain(23);
+  });
 });
