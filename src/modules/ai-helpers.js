@@ -77,9 +77,6 @@ function findValidVertical(cell) {
     default:
       validArray = [cell - 10, cell + 10];
       break;
-    // default:
-    //   validArray = [cell - 10, cell + 10];
-    //   break;
   }
   return validArray;
 }
