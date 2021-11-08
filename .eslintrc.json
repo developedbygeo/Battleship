@@ -17,6 +17,7 @@
     "import/extensions": "off",
     "consistent-return": "off",
     "no-param-reassign": "off",
-    "no-else-return": "warn"
+    "no-else-return": "warn",
+    "radix": "off"
   }
 }
