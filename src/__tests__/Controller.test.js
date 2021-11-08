@@ -1,6 +1,8 @@
 import Controller from '../modules/Controller.js';
+import Ship from '../modules/Ship.js';
 
 let testController;
+let smallShip;
 
 describe('testing the Player class', () => {
   beforeEach(() => {
@@ -106,7 +108,7 @@ describe('random AI selection', () => {
   });
 
   it('#18 randomAI successfull', () => {
-    expect(testController.randomAI()).toBe(99);
+    expect(testController.AIrandom()).toBe(99);
   });
 });
 
@@ -117,7 +119,7 @@ describe('random AI selection failed', () => {
   });
 
   it('#19 randomAI successfull', () => {
-    expect(testController.randomAI()).toBe(undefined);
+    expect(testController.AIrandom()).toBe(undefined);
   });
 });
 
@@ -128,6 +130,40 @@ describe('testing randomAI range', () => {
   });
 
   it('#20 randomAI successfull and over certain range', () => {
-    expect(testController.randomAI()).toBeGreaterThanOrEqual(51);
+    expect(testController.AIrandom()).toBeGreaterThanOrEqual(51);
+  });
+});
+
+describe('testing AIattack', () => {
+  beforeEach(() => {
+    testController = new Controller();
+    testController.playerHuman.board.hardReset();
+    smallShip = new Ship('patrol', 3);
+  });
+
+  it('#21 AIattack horizontal position', () => {
+    smallShip.position(65, 'horizontal');
+    testController.playerHuman.board.placeShip(65, smallShip);
+    expect(testController.AIattack(65, 'horizontal')).toBeGreaterThanOrEqual(
+      64
+    );
+  });
+
+  it('#22 AIattack vertical position', () => {
+    smallShip.position(65, 'vertical');
+    testController.playerHuman.board.placeShip(65, smallShip);
+    expect(testController.AIattack(65, 'vertical')).toBeGreaterThanOrEqual(55);
+  });
+
+  it('#23 AIattack null position', () => {
+    smallShip.position(65, 'vertical');
+    testController.playerHuman.board.placeShip(65, smallShip);
+    expect(testController.AIattack(65)).toBeGreaterThanOrEqual(55);
+  });
+
+  it('#24 AIattack undefined result', () => {
+    smallShip.position(99, 'vertical');
+    testController.playerHuman.board.placeShip(99, smallShip);
+    expect(testController.AIattack(99, 'vertical')).toBe(undefined);
   });
 });
