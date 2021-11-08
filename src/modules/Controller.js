@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import Player from './Player.js';
+import * as AI from './ai-helpers.js';
 
 export default class Controller {
   constructor() {
@@ -8,6 +9,7 @@ export default class Controller {
     this.currentPlayers = [this.playerHuman, this.playerAi];
     this.turn = 0;
     this.gameOver = false;
+    this.AiShots = [];
   }
 
   changeTurn() {
@@ -43,7 +45,7 @@ export default class Controller {
   }
 
   // AI logic
-  randomAI() {
+  AIrandom() {
     let selection;
     const availableCells = this.playerHuman.board.remainingCells();
     if (availableCells.length === 1) {
@@ -55,5 +57,23 @@ export default class Controller {
     }
     return selection;
   }
-  // AiAttack(pastSelection, shipGuess = null){}
+
+  AIattack(prevSelection, enemyShipDirection = null) {
+    let valid;
+    const previous = parseInt(prevSelection);
+    if (enemyShipDirection === 'vertical') {
+      valid = AI.findValidVertical(previous);
+      if (valid === 'nope') return undefined;
+    } else if (enemyShipDirection === 'horizontal') {
+      valid = AI.findValidHorizontal(previous);
+      if (valid === 'nope') return undefined;
+    } else {
+      valid = AI.findValid(previous);
+    }
+    // const alreadyAttackedCoords = this.playerHuman.board.attackedCoords;
+    const availableChoices = this.playerHuman.board.remainingCells(valid);
+    return availableChoices[
+      Math.floor(Math.random() * availableChoices.length)
+    ];
+  }
 }
