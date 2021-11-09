@@ -31,4 +31,4 @@ const humanPlayerAction = (e, player) =>
     resolve();
   });
 
-export { enableBoard, disableBoard, humanPlayerAction };
+export { enableBoard, disableBoard, colorCell, humanPlayerAction };
