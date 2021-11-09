@@ -126,10 +126,10 @@ describe('random AI selection failed', () => {
 describe('testing randomAI range', () => {
   beforeEach(() => {
     testController = new Controller();
-    testController.playerHuman.board.attackedCoords = [...Array(51).keys()];
   });
 
   it('#20 randomAI successfull and over certain range', () => {
+    testController.playerHuman.board.attackedCoords = [...Array(51).keys()];
     expect(testController.AIrandom()).toBeGreaterThanOrEqual(51);
   });
 });
