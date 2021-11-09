@@ -86,6 +86,11 @@ section {
   visibility: visible;
   opacity: 1;
 }
+
+.ship-sunk {
+  visibility: hidden;
+  opacity: 0;
+}
 .carrier {
   width: 200%;
 }
@@ -120,6 +125,10 @@ section {
 }
 .miss {
   background: $onyx;
+}
+
+.board-inactive {
+  pointer-events: none;
 }
 
 // AI
