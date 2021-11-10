@@ -20,8 +20,13 @@ export default class Controller {
     }
   }
 
-  #checkTurn() {
+  checkTurn() {
     return this.currentPlayers[this.turn];
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  checkEnd(player) {
+    return player.board.shipsAlive() === 0;
   }
 
   findLoserParty() {
@@ -35,13 +40,18 @@ export default class Controller {
   }
 
   play() {
-    if (this.#checkTurn() === this.playerHuman && this.gameOver === false) {
+    if (this.checkTurn() === this.playerHuman && this.gameOver === false) {
       return this.playerHuman.name;
     }
-    if (this.#checkTurn() === this.playerAi && this.gameOver === false) {
+    if (this.checkTurn() === this.playerAi && this.gameOver === false) {
       return this.playerAi.name;
     }
     return 'Game Over';
+  }
+
+  handleChangeTurn() {
+    this.changeTurn();
+    this.checkTurn();
   }
 
   // AI logic
@@ -75,5 +85,9 @@ export default class Controller {
     return availableChoices[
       Math.floor(Math.random() * availableChoices.length)
     ];
+  }
+
+  over() {
+    this.turn = 0;
   }
 }
