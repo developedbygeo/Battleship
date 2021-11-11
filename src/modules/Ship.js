@@ -1,65 +1,25 @@
-import calculateShipPosition from './helpers.js';
-
 export default class Ship {
-  #orientation;
-
-  #length;
-
-  #position;
-
-  #hits;
-
   constructor(name, length) {
-    this.name = name;
-    this.#length = length;
-    this.#position = [];
-    this.#orientation = 'vertical';
-    this.#hits = [];
+    this.shipName = name;
+    this.length = length;
+    this.receivedHits = 0;
   }
 
-  get length() {
-    return this.#length;
+  pieces() {
+    let count = 0;
+    const shipPieces = [];
+    for (let i = 0; i < this.length; i += 1) {
+      shipPieces.push(`${this.shipName}${count}`);
+      count += 1;
+    }
+    return shipPieces;
   }
 
-  set orientation(newValue) {
-    this.#orientation = newValue;
-  }
-
-  get getOrientation() {
-    return this.#orientation;
-  }
-
-  position(coord, direction) {
-    // resetting any existing data & filling it with new data
-    this.#position = [];
-    calculateShipPosition(coord, this.#length, direction).forEach(
-      (coordinate) => this.#position.push(coordinate)
-    );
-  }
-
-  get getPosition() {
-    return this.#position;
-  }
-
-  hit(coord) {
-    this.#hits.push(coord);
-  }
-
-  get getHits() {
-    return this.#hits;
+  receiveAttack() {
+    this.receivedHits += 1;
   }
 
   isSunk() {
-    return Number(this.getHits.length) === Number(this.length);
-  }
-
-  resetHits() {
-    this.#hits.length = 0;
-  }
-
-  hardReset() {
-    this.#position.length = 0;
-    this.#orientation = 'vertical';
-    this.#hits.length = 0;
+    return this.receivedHits === this.length;
   }
 }
