@@ -1,25 +1,24 @@
+import determinePosition from './helpers.js';
+
 export default class Ship {
   constructor(name, length) {
     this.shipName = name;
     this.length = length;
-    this.receivedHits = 0;
+    this.position = [];
+    this.hits = [];
+    this.orientation = 'vertical';
   }
 
-  pieces() {
-    let count = 0;
-    const shipPieces = [];
-    for (let i = 0; i < this.length; i += 1) {
-      shipPieces.push(`${this.shipName}${count}`);
-      count += 1;
-    }
-    return shipPieces;
+  setPosition(startingCoordinate, orientation) {
+    this.position.length = 0;
+    determinePosition(startingCoordinate, this.length, orientation).forEach((coord) => this.position.push(coord));
   }
 
-  receiveAttack() {
-    this.receivedHits += 1;
+  hit(coord) {
+    this.hits.push(coord);
   }
 
   isSunk() {
-    return this.receivedHits === this.length;
+    return this.hits.length === this.length;
   }
 }
