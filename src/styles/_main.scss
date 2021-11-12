@@ -87,6 +87,11 @@ section {
   opacity: 1;
 }
 
+.ship-placed {
+  pointer-events: none;
+  filter: brightness(0.5);
+}
+
 .ship-sunk {
   visibility: hidden;
   opacity: 0;
@@ -97,7 +102,10 @@ section {
 .patrol {
   background: url('../img/patrol.png') center no-repeat;
 }
-.cruiser {
+.cruiser1 {
+  background: url('../img/cruiser.png') center no-repeat;
+}
+.cruiser2 {
   background: url('../img/cruiser.png') center no-repeat;
 }
 .battleship {
