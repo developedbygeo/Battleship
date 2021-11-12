@@ -1,18 +1,14 @@
-export default function calculateShipPosition(
-  originalCoord,
-  shipLength,
-  shipOrientation
-) {
-  const position = [];
-  position[0] = originalCoord;
-  if (shipOrientation === 'vertical') {
-    for (let i = 1; i < shipLength; i += 1) {
-      position[i] = position[i - 1] + 10;
+export default function determinePosition(originalCoord, length, orientation) {
+  const finalPosition = [];
+  finalPosition[0] = originalCoord;
+  if (orientation === 'vertical') {
+    for (let i = 1; i < length; i += 1) {
+      finalPosition[i] = finalPosition[i - 1] + 10;
     }
   } else {
-    for (let j = 1; j < shipLength; j += 1) {
-      position[j] = position[j - 1] + 1;
+    for (let j = 1; j < length; j += 1) {
+      finalPosition[j] = finalPosition[j - 1] + 1;
     }
   }
-  return position;
+  return finalPosition;
 }
