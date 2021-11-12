@@ -1,13 +1,20 @@
 /* eslint-disable class-methods-use-this */
-
 import Ship from './Ship.js';
 
 export default class Player {
-  constructor(name, myBoard, enemyBoard) {
+  constructor(name) {
     this.name = name;
-    this.myBoard = document.querySelector('.board-you');
-    this.enemyBoard = document.querySelector('.board-ai');
+    this.board = document.querySelector(`.${this.name.toLowerCase()}-board`);
     this.fleet = [];
+    this.dragDirection = { horizontal: true };
+  }
+
+  changeDirection() {
+    if (this.dragDirection === { horizontal: true }) {
+      this.dragDirection = { horizontal: false };
+    } else {
+      this.dragDirection = { horizontal: true };
+    }
   }
 
   generateFleet() {
@@ -20,11 +27,16 @@ export default class Player {
   }
 
   remainingTiles() {
-    return [...this.myBoard.querySelectorAll('.box')];
+    return [...this.playerBoard.querySelectorAll('.box')];
   }
 
-  checkHit(coord) {
-    const tile = document.querySelector(`#${coord}`);
+  checkHit(coord, enemy) {
+    let tile;
+    if (enemy === 'player') {
+      tile = document.querySelector(`.you-board #${coord}`);
+    } else {
+      tile = document.querySelector(`.ai-board #${coord}`);
+    }
     if (tile.classList.contains('ship')) return true;
     return false;
   }
