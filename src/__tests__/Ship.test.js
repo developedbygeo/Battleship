@@ -44,3 +44,26 @@ describe('testing constructor properties', () => {
     expect(cruiser.isSunk()).toBe(false);
   });
 });
+
+describe('testing reset', () => {
+  beforeEach(() => {
+    cruiser = new Ship('cruiser', 3);
+    cruiser.setPosition(5, 'horizontal');
+    cruiser.hit(5);
+  });
+
+  it('testing position reset', () => {
+    cruiser.reset();
+    expect(cruiser.position.length).toBe(0);
+  });
+
+  it('testing hits reset', () => {
+    cruiser.reset();
+    expect(cruiser.hits.length).toBe(0);
+  });
+
+  it('testing orientation reset', () => {
+    cruiser.reset();
+    expect(cruiser.orientation).toBe('vertical');
+  });
+});
