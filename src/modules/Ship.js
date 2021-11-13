@@ -21,4 +21,10 @@ export default class Ship {
   isSunk() {
     return this.hits.length === this.length;
   }
+
+  reset() {
+    this.position.length = 0;
+    this.hits.length = 0;
+    this.orientation = 'vertical';
+  }
 }
