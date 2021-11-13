@@ -1,47 +1,46 @@
 import Ship from '../modules/Ship.js';
 
-const cruiser = new Ship('cruiser', 3);
+let cruiser;
 
-it('#1 testing horizontal orientation', () => {
-  cruiser.orientation = 'horizontal';
-  expect(cruiser.getOrientation).toBe('horizontal');
-});
-
-it('#2 ship positioning on coord 5', () => {
-  cruiser.orientation = 'vertical';
-  cruiser.position(5, 'vertical');
-  expect(cruiser.getPosition).toContain(15);
-});
-
-describe('testing hits', () => {
+describe('testing constructor properties', () => {
   beforeEach(() => {
-    cruiser.resetHits();
+    cruiser = new Ship('cruiser', 3);
   });
-  it('#3 ship is hit but not sunk', () => {
+
+  it('testing constructor properties', () => {
+    expect(cruiser.shipName).toBe('cruiser');
+    expect(cruiser.length).toBe(3);
+    expect(cruiser.position.length).toBe(0);
+    expect(cruiser.hits.length).toBe(0);
+    expect(cruiser.orientation).toBe('vertical');
+  });
+
+  it('testing position - vertical', () => {
+    cruiser.setPosition(5, 'vertical');
+    expect(cruiser.position).toContain(15);
+  });
+
+  it('testing position length - vertical', () => {
+    cruiser.setPosition(5, 'vertical');
+    expect(cruiser.position.length).toBe(3);
+  });
+
+  it('testing position - horizontal', () => {
+    cruiser.setPosition(5, 'horizontal');
+    expect(cruiser.position).toContain(6);
+  });
+
+  it('testing position length - horizontal', () => {
+    cruiser.setPosition(5, 'vertical');
+    expect(cruiser.position.length).toBe(3);
+  });
+
+  it('testing hit', () => {
     cruiser.hit(5);
+    expect(cruiser.hits).toContain(5);
+  });
+
+  it('testing sunk', () => {
     expect(cruiser.isSunk()).toBe(false);
-  });
-  it('#4 ship is hit and sunk', () => {
-    cruiser.orientation = 'horizontal';
-    cruiser.position = 5;
-    cruiser.hit(5);
-    cruiser.hit(6);
-    cruiser.hit(7);
-    expect(cruiser.isSunk()).toBe(true);
-  });
-});
-
-describe('testing hardReset', () => {
-  beforeEach(() => {
-    cruiser.hardReset();
-  });
-  it('#5 testing hard reset - position', () => {
-    expect(cruiser.getPosition.length).toBe(0);
-  });
-  it('#6 testing hard reset - orientation', () => {
-    expect(cruiser.getOrientation).toBe('vertical');
-  });
-  it('#7 testing hard reset - hits', () => {
-    expect(cruiser.getHits.length).toBe(0);
   });
 });
