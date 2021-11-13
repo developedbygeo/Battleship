@@ -1,133 +1,106 @@
 import _ from 'lodash';
-import calculateShipPosition from './helpers.js';
+import determinePosition from './helpers.js';
 
 export default class Gameboard {
-  #width;
-
-  #currentShips;
-
   constructor() {
-    this.#width = 10;
-    this.area = _.range(0, this.#width ** 2).sort((a, b) => a - b);
+    this.width = 10;
+    this.area = _.range(0, this.width ** 2);
     this.missedShots = [];
-    this.#currentShips = [];
+    this.currentShips = [];
     this.attackedCoords = [];
   }
 
+  remainingUnoccupiedCells() {
+    return this.area.filter((cell) => !this.attackedCoords.includes(cell));
+  }
+
+  missedAttacks = () => this.missedShots;
+
+  existingShips = () => this.currentShips;
+
+  attackedCoordinates = () => this.attackedCoords;
+
   setCurrentShips(ship) {
-    this.#currentShips.push(ship);
+    this.currentShips.push(ship);
   }
 
-  get getCurrentShipsOnBoard() {
-    return this.#currentShips;
-  }
-
-  isPositionValid(
-    originalCoords,
-    shipLength,
-    shipOrientation,
-    rotated = false
-  ) {
+  isPositionValid(coord, shipLength, shipOrientation, rotated = false) {
     let isValid = true;
-    const currentPositions = [];
-    this.getCurrentShipsOnBoard.forEach((ship) =>
-      currentPositions.push(ship.getPosition)
-    );
-    const shipPosition = calculateShipPosition(
-      originalCoords,
-      shipLength,
-      shipOrientation
-    );
-    // checks whether ship is on the edge of the board, applicable to both directions
-    if (
-      shipPosition[shipLength - 1] >= 100 ||
-      shipPosition[shipLength - 1] % 10 < originalCoords % 10
-    ) {
+    const shipPosition = determinePosition(coord, shipLength, shipOrientation);
+    if (shipPosition[shipLength - 1] >= 100 || shipPosition[shipLength - 1] % 10 < coord % 10) {
       return false;
     }
-    // checks taken positions against expected ones. When the ship is rotated, excludes any originalCoord overlap
+    const currentPositions = [];
+    this.existingShips().forEach((ship) => currentPositions.push(ship.position));
+
+    // compares existing positions with the expected position of the ship
     if (rotated) {
-      isValid = !currentPositions
-        .flat()
-        .some((position) => shipPosition.slice(1).includes(position));
+      isValid = !currentPositions.flat().some((position) => shipPosition.slice(1).includes(position));
     } else {
-      isValid = !currentPositions
-        .flat()
-        .some((position) => shipPosition.slice(0).includes(position));
+      isValid = !currentPositions.flat().some((position) => shipPosition.slice(0).includes(position));
     }
     return isValid;
   }
 
-  placeShip(originalCoord, ship) {
-    if (
-      !this.isPositionValid(originalCoord, ship.length, ship.getOrientation)
-    ) {
-      return false;
+  placeShip(coord, ship) {
+    if (!this.isPositionValid(coord, ship.length, ship.orientation)) {
+      throw new Error('Position is invalid');
     }
-    if (!this.#currentShips.some((ships) => ships === ship)) {
-      this.setCurrentShips(ship);
+    if (!this.currentShips.some((ships) => ships === ship)) {
+      this.currentShips.push(ship);
     }
-    ship.position(originalCoord, ship.getOrientation);
+    ship.setPosition(ship.position[0], 'horizontal');
   }
 
   rotateShip(ship) {
-    if (ship.getOrientation === 'vertical') {
-      if (
-        !this.isPositionValid(
-          ship.getPosition[0],
-          ship.length,
-          'horizontal',
-          true
-        )
-      ) {
-        throw new Error('Invalid positioning');
+    if (ship.orientation === 'vertical') {
+      if (!this.isPositionValid(ship.position[0], ship.length, 'horizontal', true)) {
+        throw new Error('Invalid placement');
       } else {
-        ship.position(ship.getPosition[0], 'vertical');
-        ship.orientation = 'vertical';
+        ship.setPosition(ship.position[0], 'horizontal');
+        ship.orientation = 'horizontal';
       }
     }
-  }
-  // checks whether the fired shot hits and registers it accordingly
-
-  shotFired(coord) {
-    const existingShips = this.getCurrentShipsOnBoard;
-    const shotResult = [];
-    if (this.attackedCoords.includes(coord)) {
-      throw new Error('A shot has already been fired here!');
+    if (!this.isPositionValid(ship.position[0], ship.length, 'vertical', true)) {
+      throw new Error('Invalid placement');
+    } else {
+      ship.setPosition(ship.position[0], 'vertical');
+      ship.orientation = 'vertical';
     }
-    existingShips.forEach((ship) => {
-      if (ship.getPosition.includes(coord)) {
+  }
+
+  handleAttack(coord) {
+    const result = [];
+    const ships = this.existingShips();
+    if (this.attackedCoords.includes(coord)) {
+      throw new Error('Coordinate has already been attacked');
+    }
+    ships.forEach((ship) => {
+      if (ship.position.includes(coord)) {
         ship.hit(coord);
-        shotResult.push(ship);
+        result.push(ship);
         this.attackedCoords.push(coord);
-        return shotResult;
+        return result;
       }
     });
     this.attackedCoords.push(coord);
     this.missedShots.push(coord);
-    return shotResult;
+    return result;
   }
 
-  shipsAlive() {
-    let aliveShips = 0;
-    this.getCurrentShipsOnBoard.forEach((ship) => {
+  remainingShips() {
+    let remainingShips = 0;
+    this.existingShips().forEach((ship) => {
       if (!ship.isSunk()) {
-        aliveShips += 1;
+        remainingShips += 1;
       }
     });
-    return aliveShips;
+    return remainingShips;
   }
 
-  remainingCells(valid = undefined) {
-    if (valid) {
-      return valid.filter((cell) => !this.attackedCoords.includes(cell));
-    }
-    return this.area.filter((cell) => !this.attackedCoords.includes(cell));
-  }
-
-  hardReset() {
+  reset() {
     this.missedShots.length = 0;
-    this.#currentShips.length = 0;
+    this.currentShips.length = 0;
     this.attackedCoords.length = 0;
   }
 }
