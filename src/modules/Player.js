@@ -1,43 +1,54 @@
 /* eslint-disable class-methods-use-this */
+import _ from 'lodash';
+import Gameboard from './Gameboard.js';
 import Ship from './Ship.js';
 
 export default class Player {
   constructor(name) {
-    this.name = name;
-    this.board = document.querySelector(`.${this.name.toLowerCase()}-board`);
-    this.fleet = [];
-    this.dragDirection = { horizontal: true };
+    this.name = name.toLowerCase();
+    this.board = new Gameboard();
+    this.ships = this.createFleet();
   }
 
-  changeDirection() {
-    if (this.dragDirection === { horizontal: true }) {
-      this.dragDirection = { horizontal: false };
-    } else {
-      this.dragDirection = { horizontal: true };
-    }
-  }
-
-  generateFleet() {
-    const patrol = new Ship('patrol', 2);
+  createFleet() {
+    const carrier = new Ship('carrier', 5);
+    const battleship = new Ship('battleship', 4);
     const cruiser1 = new Ship('cruiser1', 3);
     const cruiser2 = new Ship('cruiser2', 3);
-    const battleship = new Ship('battleship', 4);
-    const carrier = new Ship('carrier', 5);
-    this.fleet = [patrol, cruiser1, cruiser2, battleship, carrier];
+    const patrol = new Ship('patrol', 2);
+    return [carrier, battleship, cruiser1, cruiser2, patrol];
   }
 
-  remainingTiles() {
-    return [...this.playerBoard.querySelectorAll('.box')];
-  }
-
-  checkHit(coord, enemy) {
-    let tile;
-    if (enemy === 'player') {
-      tile = document.querySelector(`.you-board #${coord}`);
-    } else {
-      tile = document.querySelector(`.ai-board #${coord}`);
+  placeAIFleet() {
+    const possibleOrientations = ['vertical', 'horizontal'];
+    for (let i = 0; i < 5; i += 1) {
+      const shipToBePlaced = this.ships[i];
+      // randomly generating ship orientation
+      const randomOrientation = possibleOrientations[_.random(0, 1)];
+      shipToBePlaced.orientation = randomOrientation;
+      // randomly generating coords and checking whether the position's valid
+      let coord = _.random(0, 100);
+      while (!this.board.isPositionValid(coord, shipToBePlaced.length, randomOrientation, false)) {
+        coord = _.random(0, 100);
+      }
+      this.board.placeShip(coord, shipToBePlaced);
     }
-    if (tile.classList.contains('ship')) return true;
-    return false;
+  }
+
+  resetShips() {
+    this.ships.forEach((ship) => ship.reset());
+  }
+
+  attack(enemyBoard, coord) {
+    enemyBoard.handleAttack(coord);
+  }
+
+  areShipsPlaced() {
+    for (let i = 0; i < this.ships.length; i += 1) {
+      if (this.ships[i].position.length === 0) {
+        return false;
+      }
+    }
+    return true;
   }
 }
