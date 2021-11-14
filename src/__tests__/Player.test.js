@@ -1,68 +1,42 @@
 import Player from '../modules/Player.js';
-import Ship from '../modules/Ship.js';
 
-let newPlayer;
-let ai;
+const player = new Player('You');
 
 describe('testing the Player class', () => {
-  beforeEach(() => {
-    newPlayer = new Player();
-    ai = new Player();
+  afterEach(() => {});
+
+  it('testing the constructor / createFleet', () => {
+    expect(player.name).toBe('you');
+    expect(player.board.area.length).toBe(100);
+    expect(player.ships.length).toBe(5);
   });
 
-  it('testing fleet', () => {
-    newPlayer.createFleet();
-    expect(newPlayer.fleet.length).toBe(5);
+  it('testing placeAIFleet', () => {
+    player.placeAIFleet();
+    expect(player.board.currentShips.length).toBe(5);
   });
 
-  it('testing fleet ships', () => {
-    newPlayer.createFleet();
-    expect(newPlayer.fleet[0].name).toBe('patrol');
-  });
-
-  it('random placement test', () => {
-    newPlayer.createFleet();
-    newPlayer.randomPlacement();
-    expect(newPlayer.board.getCurrentShipsOnBoard.length).toBe(5);
-  });
-
-  it('random placement test - length check', () => {
-    newPlayer.createFleet();
-    newPlayer.randomPlacement();
-    const orientationArray = [];
-    newPlayer.board.getCurrentShipsOnBoard.forEach((ship) =>
-      orientationArray.push(ship.getOrientation)
-    );
-    expect(orientationArray.length).toBe(5);
+  it('testing resetShips', () => {
+    player.resetShips();
+    player.board.currentShips.forEach((ship) => {
+      expect(ship.position.length).toBe(0);
+    });
   });
 
   it('testing attack', () => {
-    const carrier = new Ship('carrier', 3);
-    ai.board.placeShip(5, carrier);
-    newPlayer.attack(ai.board, 5);
-    expect(ai.board.attackedCoords[0]).toBe(5);
+    const ai = new Player('AI');
+    ai.board.reset();
+    player.attack(ai.board, 29);
+    expect(ai.board.missedShots.length).toBe(1);
   });
 
-  it('fleet reset - testing shot damage reset', () => {
-    newPlayer.createFleet();
-    newPlayer.randomPlacement();
-    newPlayer.fleet[0].hit(5);
-    newPlayer.fleetReset();
-    expect(newPlayer.fleet[0].getHits.length).toBe(0);
+  it('testing if all ships are placed - valid', () => {
+    player.placeAIFleet();
+    expect(player.areShipsPlaced()).toBe(true);
   });
 
-  it('fleet reset - testing position reset', () => {
-    newPlayer.createFleet();
-    newPlayer.randomPlacement();
-    newPlayer.fleetReset();
-    expect(newPlayer.fleet[0].getPosition.length).toBe(0);
-  });
-
-  it('fleet reset - testing orientation reset', () => {
-    newPlayer.createFleet();
-    newPlayer.randomPlacement();
-    newPlayer.fleet[0].setOrientation = 'horizontal';
-    newPlayer.fleetReset();
-    expect(newPlayer.fleet[0].getOrientation).toBe('vertical');
+  it('testing if all ships are placed - invalid - resetting each ship', () => {
+    player.ships.forEach((ship) => ship.reset());
+    expect(player.areShipsPlaced()).toBe(false);
   });
 });
