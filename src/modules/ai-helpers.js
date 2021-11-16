@@ -1,96 +1,86 @@
 import _ from 'lodash';
 
-const topMidRow = _.range(1, 9);
-const bottomMidRow = _.range(91, 99);
-const rightMidCol = _.range(19, 99, 10);
-const leftMidCol = _.range(10, 90, 10);
+const topConstraints = _.range(1, 9);
+const bottomConstraints = _.range(91, 99);
+const rightConstraints = _.range(19, 99, 10);
+const leftConstraints = _.range(10, 90, 10);
 
-// maps the inner part of the board, to locate the enemy ship
-function findValid(cell) {
-  let validArray = [];
-  switch (true) {
-    case cell === 0:
-      validArray = [cell + 1, cell + 10];
-      break;
-    case cell === 9:
-      validArray = [cell - 1, cell + 10];
-      break;
-    case cell === 90:
-      validArray = [cell + 1, cell - 10];
-      break;
-    case cell === 99:
-      validArray = [cell - 1, cell - 10];
-      break;
-    case leftMidCol.includes(cell):
-      validArray = [cell + 1, cell - 10, cell + 10];
-      break;
-    case rightMidCol.includes(cell):
-      validArray = [cell - 1, cell - 10, cell + 10];
-      break;
-    case topMidRow.includes(cell):
-      validArray = [cell - 1, cell + 1, cell + 10];
-      break;
-    case bottomMidRow.includes(cell):
-      validArray = [cell - 1, cell + 1, cell - 10];
-      break;
-    default:
-      validArray = [cell - 1, cell + 1, cell - 10, cell + 10];
-      break;
+// maps the inner part of the board, to locate the enemy ship based on a direction hypothesis
+function findValidXY(cellID, direction = 'vertical') {
+  let validOptions = [];
+  if (direction === 'horizontal') {
+    switch (true) {
+      case cellID === 0:
+      case cellID === 9:
+      case cellID === 90:
+      case cellID === 99:
+      case leftConstraints.includes(cellID):
+      case rightConstraints.includes(cellID):
+        validOptions = 'nope';
+        break;
+      case topConstraints.includes(cellID):
+      case bottomConstraints.includes(cellID):
+        validOptions = [cellID - 1, cellID + 1];
+        break;
+      default:
+        validOptions = [cellID - 1, cellID + 1];
+    }
+  } else if (direction === 'vertical') {
+    switch (true) {
+      case cellID === 0:
+      case cellID === 9:
+      case cellID === 90:
+      case cellID === 99:
+      case topConstraints.includes(cellID):
+      case bottomConstraints.includes(cellID):
+        validOptions = 'nope';
+        break;
+      case leftConstraints.includes(cellID):
+      case rightConstraints.includes(cellID):
+      default:
+        validOptions = [cellID - 10, cellID + 10];
+        break;
+    }
+  } else if (direction === 'unavailable') {
+    switch (true) {
+      case cellID === 0:
+        validOptions = [cellID + 1, cellID + 10];
+        break;
+      case cellID === 9:
+        validOptions = [cellID - 1, cellID + 10];
+        break;
+      case cellID === 90:
+        validOptions = [cellID + 1, cellID - 10];
+        break;
+      case cellID === 99:
+        validOptions = [cellID - 1, cellID - 10];
+        break;
+      case leftConstraints.includes(cellID):
+        validOptions = [cellID + 1, cellID - 10, cellID + 10];
+        break;
+      case rightConstraints.includes(cellID):
+        validOptions = [cellID - 1, cellID - 10, cellID + 10];
+        break;
+      case topConstraints.includes(cellID):
+        validOptions = [cellID - 1, cellID + 1, cellID + 10];
+        break;
+      case bottomConstraints.includes(cellID):
+        validOptions = [cellID - 1, cellID + 1, cellID - 10];
+        break;
+      default:
+        validOptions = [cellID - 1, cellID + 1, cellID - 10, cellID + 10];
+        break;
+    }
   }
-  return validArray;
+  return validOptions;
 }
 
-function findValidHorizontal(cell) {
-  let validArray = [];
-  switch (true) {
-    case cell === 0:
-    case cell === 9:
-    case cell === 90:
-    case cell === 99:
-    case leftMidCol.includes(cell):
-    case rightMidCol.includes(cell):
-      validArray = 'nope';
-      break;
-    case topMidRow.includes(cell):
-    case bottomMidRow.includes(cell):
-      validArray = [cell - 1, cell + 1];
-      break;
-    default:
-      validArray = [cell - 1, cell + 1];
-  }
-  return validArray;
-}
-
-function findValidVertical(cell) {
-  let validArray = [];
-  switch (true) {
-    case cell === 0:
-    case cell === 9:
-    case cell === 90:
-    case cell === 99:
-    case topMidRow.includes(cell):
-    case bottomMidRow.includes(cell):
-      validArray = 'nope';
-      break;
-    case leftMidCol.includes(cell):
-    case rightMidCol.includes(cell):
-    default:
-      validArray = [cell - 10, cell + 10];
-      break;
-  }
-  return validArray;
+function filterAttackedCells(valid, attacked) {
+  return valid.filter((cell) => !attacked.includes(cell));
 }
 
 function findEnemyDirection(successfulHits) {
-  if (Math.abs(successfulHits[0] - successfulHits[1]) > 1) {
-    return 'vertical';
-  }
-  return 'horizontal';
+  return Math.abs(successfulHits[0] - successfulHits[1]) > 1 ? 'vertical' : 'horizontal';
 }
 
-export {
-  findValid,
-  findValidHorizontal,
-  findValidVertical,
-  findEnemyDirection,
-};
+export { findValidXY, findEnemyDirection, filterAttackedCells };
