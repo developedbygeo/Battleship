@@ -1,3 +1,18 @@
+function elementCreator(el, elClass, elID = null) {
+  const element = document.createElement(`${el}`);
+  element.classList.add(elClass);
+  element.setAttribute('data-coord', elID);
+  return element;
+}
+
+function populateBoard(...boards) {
+  boards.forEach((board) => {
+    for (let i = 0; i < 100; i += 1) {
+      board.appendChild(elementCreator('div', 'box', i));
+    }
+  });
+}
+
 function enableBoard(boardName) {
   const board = document.querySelector(`board-${boardName}`);
   board.classList.remove('board-active');
@@ -15,20 +30,37 @@ function colorCell(cell, hitOrNot) {
   }
 }
 
-const humanPlayerAction = (e, player) =>
-  new Promise((resolve) => {
-    const successfulHit = player.board.shotsFired(parseInt(e.target.id));
-    if (successfulHit.length === 0) {
-      colorCell(e.target, false);
-    } else {
-      colorCell(e.target, true);
-      if (successfulHit[0].isSunk()) {
-        const sunkShip = successfulHit[0].name;
-        const shipIconDOM = document.querySelector(`.${sunkShip}`);
-        shipIconDOM.classList.add('ship-sunk');
-      }
-    }
-    resolve();
-  });
+function sunkShip(ship, status = false) {
+  if (status === true) {
+    ship.classList.add('ship-sunk');
+  } else {
+    ship.classList.remove('ship-sunk');
+  }
+}
 
-export { enableBoard, disableBoard, colorCell, humanPlayerAction };
+function initializeGameDOM() {
+  const heroDiv = document.querySelector('.hero-intro');
+  const header = document.querySelector('header');
+  const main = document.querySelector('main');
+  heroDiv.classList.add('hero-intro-inactive');
+  header.classList.add('header-active');
+  main.classList.add('main-active');
+}
+
+function handleStatus(targetParent, target1, status1, target2 = target1, status2 = status1) {
+  const parentElement = document.querySelector(`.${targetParent}`);
+  document.querySelector(`.${target1}`).textContent = `${status1}`;
+  document.querySelector(`.${target2}`).textContent = `${status2}`;
+  if (!parentElement.classList.contains('err-active')) parentElement.classList.add('err-active');
+}
+
+export {
+  elementCreator,
+  populateBoard,
+  enableBoard,
+  disableBoard,
+  initializeGameDOM,
+  sunkShip,
+  colorCell,
+  handleStatus,
+};
