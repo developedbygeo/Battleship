@@ -41,7 +41,7 @@ describe('testing constructor properties', () => {
   });
 
   it('testing sunk', () => {
-    expect(cruiser.isSunk()).toBe(false);
+    expect(cruiser.hasShipSunk()).toBe(false);
   });
 });
 
