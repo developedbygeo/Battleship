@@ -18,7 +18,7 @@ export default class Ship {
     this.hits.push(coord);
   }
 
-  isSunk() {
+  hasShipSunk() {
     return this.hits.length === this.length;
   }
 
