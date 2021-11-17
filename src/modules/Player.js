@@ -7,10 +7,22 @@ export default class Player {
   constructor(name) {
     this.name = name.toLowerCase();
     this.board = new Gameboard();
-    this.ships = this.createFleet();
+    this.ships = this.generateShips();
   }
 
-  createFleet() {
+  getDomBoard() {
+    return document.querySelector(`.board-${this.name}`);
+  }
+
+  disableDomBoard() {
+    this.getDomBoard().classList.add('board-inactive');
+  }
+
+  enableDomBoard() {
+    this.getDomBoard().classList.remove('board-inactive');
+  }
+
+  generateShips() {
     const carrier = new Ship('carrier', 5);
     const battleship = new Ship('battleship', 4);
     const cruiser1 = new Ship('cruiser1', 3);
@@ -19,7 +31,7 @@ export default class Player {
     return [carrier, battleship, cruiser1, cruiser2, patrol];
   }
 
-  placeAIFleet() {
+  positionAiShips() {
     const possibleOrientations = ['vertical', 'horizontal'];
     for (let i = 0; i < 5; i += 1) {
       const shipToBePlaced = this.ships[i];
