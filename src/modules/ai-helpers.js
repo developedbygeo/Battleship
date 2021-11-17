@@ -8,31 +8,23 @@ const leftConstraints = _.range(10, 90, 10);
 // maps the inner part of the board, to locate the enemy ship based on a direction hypothesis
 function findValidXY(cellID, direction = 'vertical') {
   let validOptions = [];
+  let constraints;
   if (direction === 'horizontal') {
+    constraints = [0, 9, 90, 99, ...leftConstraints, ...rightConstraints];
     switch (true) {
-      case cellID === 0:
-      case cellID === 9:
-      case cellID === 90:
-      case cellID === 99:
-      case leftConstraints.includes(cellID):
-      case rightConstraints.includes(cellID):
+      case constraints.includes(cellID):
         validOptions = 'nope';
         break;
       case topConstraints.includes(cellID):
       case bottomConstraints.includes(cellID):
-        validOptions = [cellID - 1, cellID + 1];
-        break;
       default:
         validOptions = [cellID - 1, cellID + 1];
+        break;
     }
   } else if (direction === 'vertical') {
+    constraints = [0, 9, 90, 99, ...topConstraints, ...bottomConstraints];
     switch (true) {
-      case cellID === 0:
-      case cellID === 9:
-      case cellID === 90:
-      case cellID === 99:
-      case topConstraints.includes(cellID):
-      case bottomConstraints.includes(cellID):
+      case constraints.includes(cellID):
         validOptions = 'nope';
         break;
       case leftConstraints.includes(cellID):
