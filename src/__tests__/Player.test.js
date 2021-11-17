@@ -2,6 +2,10 @@ import Player from '../modules/Player.js';
 
 const player = new Player('You');
 
+document.body.innerHTML = `<div>
+<div class='board-you'></div>
+</div>`;
+
 describe('testing the Player class', () => {
   afterEach(() => {});
 
@@ -11,8 +15,25 @@ describe('testing the Player class', () => {
     expect(player.ships.length).toBe(5);
   });
 
-  it('testing placeAIFleet', () => {
-    player.placeAIFleet();
+  it('testing the getDomBoard method', () => {
+    const board = player.getDomBoard();
+    expect(board).toBeDefined();
+  });
+
+  it('testing the disableDomBoard method', () => {
+    player.disableDomBoard();
+    const container = player.getDomBoard();
+    expect(container.classList.contains('board-inactive')).toBe(true);
+  });
+
+  it('testing the enableDomBoard method', () => {
+    player.enableDomBoard();
+    const container = player.getDomBoard();
+    expect(container.classList.contains('board-inactive')).toBe(false);
+  });
+
+  it('testing positionAiShips', () => {
+    player.positionAiShips();
     expect(player.board.currentShips.length).toBe(5);
   });
 
@@ -31,7 +52,7 @@ describe('testing the Player class', () => {
   });
 
   it('testing if all ships are placed - valid', () => {
-    player.placeAIFleet();
+    player.positionAiShips();
     expect(player.areShipsPlaced()).toBe(true);
   });
 
