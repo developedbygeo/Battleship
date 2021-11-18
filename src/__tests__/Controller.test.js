@@ -1,169 +1,92 @@
 import Controller from '../modules/Controller.js';
-import Ship from '../modules/Ship.js';
 
-let testController;
-let smallShip;
+let game = new Controller();
 
-describe('testing the Player class', () => {
-  beforeEach(() => {
-    testController = new Controller();
+describe('testing the Controller class', () => {
+  document.body.innerHTML = `
+  <div>
+      <div class='ai-patrol'></div>
+      <div class='board-you'>
+      </div>
+      <div class='board-ai'>
+      </div>
+      <div class='error-wrapper'>
+      <p class='error-title-header'></p>
+      <p class='error-message-p'></p>
+      </div>
+  </div>`;
+
+  afterEach(() => {
+    game = new Controller();
+    game.player1.enableDomBoard();
+    game.player2.enableDomBoard();
   });
 
-  it('#1 testing playerHuman', () => {
-    expect(testController.playerHuman.name).toBe('You');
+  it('testing the constructor', () => {
+    expect(game.turn).toBe(0);
+    expect(game.player1.name).toBe('you');
+    expect(game.player2.name).toBe('ai');
+    expect(game.players.length).toBe(2);
+    expect(game.currentPlayer.name).toBe('you');
   });
 
-  it('#2 testing playerAi', () => {
-    expect(testController.playerAi.name).toBe('AI');
+  it('testing handleTurn, findActivePlayer and getCurrentPlayerTurn', () => {
+    game.handleTurn();
+    game.findActivePlayer();
+    expect(game.currentPlayer.name).toBe('ai');
+    expect(game.getCurrentPlayerTurn()).toBe(1);
   });
 
-  it('#3 testing currentPlayers', () => {
-    expect(testController.currentPlayers.length).toBe(2);
+  it('testing handleTurn - turn 1', () => {
+    game.turn = 1;
+    game.handleTurn();
+    expect(game.turn).toBe(0);
   });
 
-  it('#4 testingCurrentPlayers array index 0', () => {
-    expect(testController.currentPlayers[0].name).toBe('You');
+  it('testing turnDefault and handleBoards - turn human', () => {
+    game.turnDefault();
+    game.handleBoards();
+    expect(game.turn).toBe(0);
+    expect(game.player1.getDomBoard().classList.contains('board-inactive')).toBe(true);
   });
 
-  it('#5 testingCurrentPlayers array index 1', () => {
-    expect(testController.currentPlayers[1].name).toBe('AI');
+  it('testing handleBoards - turn cpu', () => {
+    game.turn = 1;
+    game.handleBoards();
+    expect(game.player2.getDomBoard().classList.contains('board-inactive')).toBe(true);
   });
 
-  it('#6 testing initial state of turn', () => {
-    expect(testController.turn).toBe(0);
+  it('testing turnComplete', () => {
+    game.turn = 0;
+    game.turnComplete();
+    expect(game.turn).toBe(1);
+    expect(game.currentPlayer.name).toBe('ai');
+    expect(game.player2.getDomBoard().classList.contains('board-inactive')).toBe(true);
   });
 
-  it('#7 testing changeTurn', () => {
-    testController.changeTurn();
-    expect(testController.turn).toBe(1);
+  it('testing isGAmeOver', () => {
+    game.player2.generateShips();
+    game.player2.positionAiShips();
+    expect(game.isGameOver(game.player2)).toBe(false);
   });
 
-  it('#8 testing changeTurn twice to change turn to 0', () => {
-    testController.changeTurn();
-    testController.changeTurn();
-    expect(testController.turn).toBe(0);
+  it('testing gameOver', () => {
+    game.gameOver();
+    expect(game.player1.getDomBoard().classList.contains('board-inactive')).toBe(true);
+    expect(game.player2.getDomBoard().classList.contains('board-inactive')).toBe(true);
+    expect(document.querySelector('.error-wrapper').classList.contains('err-active')).toBe(true);
   });
 
-  it('#9 testing checkTurn and play methods, expecting AI', () => {
-    testController.changeTurn();
-    expect(testController.turn).toBe(1);
-    expect(testController.play()).toBe('AI');
+  it('testing hasPossibleSunk', () => {
+    game.player2.generateShips();
+    game.player2.positionAiShips();
+    const patrol = game.player2.ships.find((ship) => ship.shipName === 'patrol');
+    patrol.hits = [3, 4];
+    game.handlePossibleSunk(patrol, game.player1);
+    expect(document.querySelector('.ai-patrol').classList.contains('ship-sunk')).toBe(true);
   });
 
-  it('#10 testing checkTurn and play methods, expecting You', () => {
-    expect(testController.play()).toBe('You');
-  });
-
-  it('#11 testing default state of gameOver', () => {
-    expect(testController.gameOver).toBe(false);
-  });
-
-  it('#12 testing gameOver through play', () => {
-    testController.gameOver = true;
-    expect(testController.play()).toBe('Game Over');
-  });
-
-  it('#13 testing fleet creation through Controller (random placement) for playerHuman', () => {
-    testController.playerHuman.createFleet();
-    testController.playerHuman.randomPlacement();
-    expect(testController.playerHuman.board.getCurrentShipsOnBoard.length).toBe(
-      5
-    );
-  });
-
-  it('#14 testing fleet creation through Controller (random placement)for playerAI', () => {
-    testController.playerAi.createFleet();
-    testController.playerAi.randomPlacement();
-    expect(testController.playerAi.board.getCurrentShipsOnBoard.length).toBe(5);
-  });
-
-  it('#15 testing findLoserParty with no ships left (Human winner)', () => {
-    testController.playerAi.createFleet();
-    testController.playerAi.randomPlacement();
-    testController.playerAi.board.hardReset();
-    expect(testController.findLoserParty()).toBe('You');
-  });
-
-  it('#16 testing findLoserParty with no ships left (AI winner)', () => {
-    testController.playerHuman.createFleet();
-    testController.playerHuman.randomPlacement();
-    expect(testController.findLoserParty()).toBe('AI');
-  });
-
-  it('#17 testing findLoserParty with ships left (Error trigger)', () => {
-    testController.playerHuman.createFleet();
-    testController.playerHuman.randomPlacement();
-    testController.playerAi.createFleet();
-    testController.playerAi.randomPlacement();
-    expect(() => {
-      testController.findLoserParty();
-    }).toThrow('Oops, no one has lost yet!');
-  });
-});
-
-describe('random AI selection', () => {
-  beforeEach(() => {
-    testController = new Controller();
-    testController.playerHuman.board.attackedCoords = [...Array(99).keys()];
-  });
-
-  it('#18 randomAI successfull', () => {
-    expect(testController.AIrandom()).toBe(99);
-  });
-});
-
-describe('random AI selection failed', () => {
-  beforeEach(() => {
-    testController = new Controller();
-    testController.playerHuman.board.attackedCoords = [...Array(100).keys()];
-  });
-
-  it('#19 randomAI successfull', () => {
-    expect(testController.AIrandom()).toBe(undefined);
-  });
-});
-
-describe('testing randomAI range', () => {
-  beforeEach(() => {
-    testController = new Controller();
-  });
-
-  it('#20 randomAI successfull and over certain range', () => {
-    testController.playerHuman.board.attackedCoords = [...Array(51).keys()];
-    expect(testController.AIrandom()).toBeGreaterThanOrEqual(51);
-  });
-});
-
-describe('testing AIattack', () => {
-  beforeEach(() => {
-    testController = new Controller();
-    testController.playerHuman.board.hardReset();
-    smallShip = new Ship('patrol', 3);
-  });
-
-  it('#21 AIattack horizontal position', () => {
-    smallShip.position(65, 'horizontal');
-    testController.playerHuman.board.placeShip(65, smallShip);
-    expect(testController.AIattack(65, 'horizontal')).toBeGreaterThanOrEqual(
-      64
-    );
-  });
-
-  it('#22 AIattack vertical position', () => {
-    smallShip.position(65, 'vertical');
-    testController.playerHuman.board.placeShip(65, smallShip);
-    expect(testController.AIattack(65, 'vertical')).toBeGreaterThanOrEqual(55);
-  });
-
-  it('#23 AIattack null position', () => {
-    smallShip.position(65, 'vertical');
-    testController.playerHuman.board.placeShip(65, smallShip);
-    expect(testController.AIattack(65)).toBeGreaterThanOrEqual(55);
-  });
-
-  it('#24 AIattack undefined result', () => {
-    smallShip.position(99, 'vertical');
-    testController.playerHuman.board.placeShip(99, smallShip);
-    expect(testController.AIattack(99, 'vertical')).toBe(undefined);
+  it('testing selectRandomCell', () => {
+    expect(typeof game.selectRandomCell()).toBe('number');
   });
 });
