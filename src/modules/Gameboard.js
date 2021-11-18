@@ -20,9 +20,7 @@ export default class Gameboard {
 
   attackedCoordinates = () => this.attackedCoords;
 
-  setCurrentShips(ship) {
-    this.currentShips.push(ship);
-  }
+  setCurrentShips = (ship) => this.currentShips.push(ship);
 
   isPositionValid(coord, shipLength, shipOrientation, rotated = false) {
     let isValid = true;
@@ -34,11 +32,10 @@ export default class Gameboard {
     this.existingShips().forEach((ship) => currentPositions.push(ship.position));
 
     // compares existing positions with the expected position of the ship
-    if (rotated) {
-      isValid = !currentPositions.flat().some((position) => shipPosition.slice(1).includes(position));
-    } else {
-      isValid = !currentPositions.flat().some((position) => shipPosition.slice(0).includes(position));
-    }
+    isValid =
+      rotated === true
+        ? !currentPositions.flat().some((position) => shipPosition.slice(1).includes(position))
+        : !currentPositions.flat().some((position) => shipPosition.slice(0).includes(position));
     return isValid;
   }
 
@@ -88,15 +85,7 @@ export default class Gameboard {
     return result;
   }
 
-  remainingShips() {
-    let remainingShips = 0;
-    this.existingShips().forEach((ship) => {
-      if (!ship.isSunk()) {
-        remainingShips += 1;
-      }
-    });
-    return remainingShips;
-  }
+  remainingShips = () => this.existingShips().filter((ship) => !ship.hasShipSunk()).length;
 
   reset() {
     this.missedShots.length = 0;
