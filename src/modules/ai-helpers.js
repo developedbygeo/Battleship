@@ -1,12 +1,11 @@
 import _ from 'lodash';
 
-const topConstraints = _.range(1, 9);
-const bottomConstraints = _.range(91, 99);
-const rightConstraints = _.range(19, 99, 10);
-const leftConstraints = _.range(10, 90, 10);
-
 // maps the inner part of the board, to locate the enemy ship based on a direction hypothesis
 function findValidXY(cellID, direction = 'vertical') {
+  const topConstraints = _.range(1, 9);
+  const bottomConstraints = _.range(91, 99);
+  const rightConstraints = _.range(19, 99, 10);
+  const leftConstraints = _.range(10, 90, 10);
   let validOptions = [];
   let constraints;
   if (direction === 'horizontal') {
