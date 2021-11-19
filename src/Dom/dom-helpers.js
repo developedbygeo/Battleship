@@ -1,7 +1,7 @@
-function elementCreator(el, elClass, elID = null) {
+function elementCreator(el, elClass, elID = null, attr = 'data-coord') {
   const element = document.createElement(`${el}`);
   element.classList.add(elClass);
-  element.setAttribute('data-coord', elID);
+  element.setAttribute(`${attr}`, elID);
   return element;
 }
 
@@ -30,11 +30,12 @@ function colorCell(cell, hitOrNot) {
   }
 }
 
-function sunkShip(ship, status = false) {
+function sunkShip(receivingPlayer, target, status = false) {
+  const element = document.querySelector(`.${receivingPlayer}-${target}`);
   if (status === true) {
-    ship.classList.add('ship-sunk');
+    element.classList.add('ship-sunk');
   } else {
-    ship.classList.remove('ship-sunk');
+    element.classList.remove('ship-sunk');
   }
 }
 
@@ -54,6 +55,23 @@ function handleStatus(targetParent, target1, status1, target2 = target1, status2
   if (!parentElement.classList.contains('err-active')) parentElement.classList.add('err-active');
 }
 
+function generateDomShip(name, orientation, len, id) {
+  if (orientation === 'horizontal') {
+    for (let i = id; i < id + len; i += 1) {
+      const nextPoint = document.querySelector(`.board-you [data-coord='${i}']`);
+      nextPoint.classList.add('ship');
+      nextPoint.classList.add(`ship-${name}`);
+    }
+  }
+  if (orientation === 'vertical') {
+    for (let i = id; i < id + len * 10; i += 10) {
+      const nextPoint = document.querySelector(`.board-you [data-coord='${i}']`);
+      nextPoint.classList.add('ship');
+      nextPoint.classList.add(`ship-${name}`);
+    }
+  }
+}
+
 export {
   elementCreator,
   populateBoard,
@@ -63,4 +81,5 @@ export {
   sunkShip,
   colorCell,
   handleStatus,
+  generateDomShip,
 };
