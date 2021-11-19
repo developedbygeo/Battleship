@@ -92,6 +92,11 @@ section {
 .ship-sunk {
   opacity: 0.2;
 }
+
+.ship {
+  background: $quick-silver;
+}
+
 .carrier {
   width: 200%;
 }
