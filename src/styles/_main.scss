@@ -89,6 +89,11 @@ section {
   filter: brightness(0.5);
 }
 
+.placing-now {
+  border: 1px solid white;
+  border-radius: 2rem;
+}
+
 .ship-sunk {
   opacity: 0.2;
 }
