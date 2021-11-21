@@ -72,6 +72,37 @@ function generateDomShip(name, orientation, len, id) {
   }
 }
 
+function markedPlacedShip(target) {
+  target.classList.remove('placing-now');
+  target.classList.add('ship-placed');
+}
+
+function rotateDomShips() {
+  // TODO could abstract by putting allDomShips as arg
+  const allDomShips = document.querySelectorAll('.player .ship-cont');
+  allDomShips.forEach((ship) => {
+    const currentOrientation = ship.dataset.orientation;
+    if (currentOrientation === 'vertical') {
+      ship.dataset.orientation = 'horizontal';
+    } else {
+      ship.dataset.orientation = 'vertical';
+    }
+  });
+}
+
+function enableDomShips(target) {
+  // TODO could abstract by putting allDomShips as arg
+  target.classList.add('placing-now');
+  const { name, orientation, length, id } = target.dataset;
+  return [name, orientation, length, id];
+}
+// TODO create nested functions to handle the event chain
+function placeShip(player, currentCoord, length, orientation, id) {
+  if (player.board.isPositionValid(currentCoord, length, orientation)) {
+    player.board.placeShip(parseInt(currentCoord), player.ships[id]);
+  }
+}
+
 export {
   elementCreator,
   populateBoard,
@@ -82,4 +113,7 @@ export {
   colorCell,
   handleStatus,
   generateDomShip,
+  markedPlacedShip,
+  rotateDomShips,
+  enableDomShips,
 };
