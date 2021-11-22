@@ -71,6 +71,7 @@ export default class Game {
         this.currentShipLength,
         parseInt(e.target.dataset.coord)
       );
+      this.settings.player1.ships[this.currentShipID].setPosition(clickedCoord, this.currentShipOrientation);
       markedPlacedShip(this.currentShipDOMObj);
       this.resetSelectedValues();
     }
