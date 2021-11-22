@@ -55,16 +55,16 @@ function handleStatus(targetParent, target1, status1, target2 = target1, status2
   if (!parentElement.classList.contains('err-active')) parentElement.classList.add('err-active');
 }
 
-function generateDomShip(name, orientation, len, id) {
+function generateDomShip(name, orientation, len, selectedCoordinate) {
   if (orientation === 'horizontal') {
-    for (let i = id; i < id + len; i += 1) {
+    for (let i = selectedCoordinate; i < selectedCoordinate + len; i += 1) {
       const nextPoint = document.querySelector(`.board-you [data-coord='${i}']`);
       nextPoint.classList.add('ship');
       nextPoint.classList.add(`ship-${name}`);
     }
   }
   if (orientation === 'vertical') {
-    for (let i = id; i < id + len * 10; i += 10) {
+    for (let i = selectedCoordinate; i < selectedCoordinate + len * 10; i += 10) {
       const nextPoint = document.querySelector(`.board-you [data-coord='${i}']`);
       nextPoint.classList.add('ship');
       nextPoint.classList.add(`ship-${name}`);
@@ -78,7 +78,6 @@ function markedPlacedShip(target) {
 }
 
 function rotateDomShips() {
-  // TODO could abstract by putting allDomShips as arg
   const allDomShips = document.querySelectorAll('.player .ship-cont');
   allDomShips.forEach((ship) => {
     const currentOrientation = ship.dataset.orientation;
@@ -88,19 +87,6 @@ function rotateDomShips() {
       ship.dataset.orientation = 'vertical';
     }
   });
-}
-
-function enableDomShips(target) {
-  // TODO could abstract by putting allDomShips as arg
-  target.classList.add('placing-now');
-  const { name, orientation, length, id } = target.dataset;
-  return [name, orientation, length, id];
-}
-// TODO create nested functions to handle the event chain
-function placeShip(player, currentCoord, length, orientation, id) {
-  if (player.board.isPositionValid(currentCoord, length, orientation)) {
-    player.board.placeShip(parseInt(currentCoord), player.ships[id]);
-  }
 }
 
 export {
@@ -115,5 +101,4 @@ export {
   generateDomShip,
   markedPlacedShip,
   rotateDomShips,
-  enableDomShips,
 };
