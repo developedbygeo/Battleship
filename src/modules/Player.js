@@ -28,7 +28,7 @@ export default class Player {
     const cruiser1 = new Ship('cruiser1', 3);
     const cruiser2 = new Ship('cruiser2', 3);
     const patrol = new Ship('patrol', 2);
-    return [carrier, battleship, cruiser1, cruiser2, patrol];
+    return [patrol, cruiser1, cruiser2, battleship, carrier];
   }
 
   positionAiShips() {
