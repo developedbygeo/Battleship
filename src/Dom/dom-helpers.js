@@ -48,19 +48,28 @@ function initializeGameDOM() {
   main.classList.add('main-active');
 }
 
-function handleStatus(targetParent, target1, status1, target2 = target1, status2 = status1) {
+function handleStatus(targetParent, target1, status1, target2 = target1, status2 = status1, state = 0) {
   const parentElement = document.querySelector(`.${targetParent}`);
   document.querySelector(`.${target1}`).textContent = `${status1}`;
   document.querySelector(`.${target2}`).textContent = `${status2}`;
   if (!parentElement.classList.contains('err-active')) parentElement.classList.add('err-active');
+  if (state !== 1) {
+    parentElement.setTimeout(() => {
+      parentElement.classList.remove('err-active');
+    }, 1000);
+  }
 }
 
-function generateDomShip(name, orientation, len, selectedCoordinate) {
+function generateDomShip(name, orientation, len, selectedCoordinate, action = 'generate') {
   if (orientation === 'horizontal') {
     for (let i = selectedCoordinate; i < selectedCoordinate + len; i += 1) {
       const nextPoint = document.querySelector(`.board-you [data-coord='${i}']`);
-      nextPoint.classList.add('ship');
-      nextPoint.classList.add(`ship-${name}`);
+      if (action !== 'generate') {
+        nextPoint.classList.add('indicate-placement');
+      } else {
+        nextPoint.classList.add('ship');
+        nextPoint.classList.add(`ship-${name}`);
+      }
     }
   }
   if (orientation === 'vertical') {
@@ -77,7 +86,12 @@ function markedPlacedShip(target) {
   target.classList.add('ship-placed');
 }
 
+function unmarkPlacedShips(ships) {
+  ships.forEach((ship) => ship.classList.remove('ship-placed'));
+}
+
 function rotateDomShips() {
+  const description = document.querySelector('.current-orientation');
   const allDomShips = document.querySelectorAll('.player .ship-cont');
   allDomShips.forEach((ship) => {
     const currentOrientation = ship.dataset.orientation;
@@ -86,6 +100,7 @@ function rotateDomShips() {
     } else {
       ship.dataset.orientation = 'vertical';
     }
+    description.textContent = ship.dataset.orientation;
   });
 }
 
@@ -99,6 +114,7 @@ export {
   colorCell,
   handleStatus,
   generateDomShip,
+  unmarkPlacedShips,
   markedPlacedShip,
   rotateDomShips,
 };
