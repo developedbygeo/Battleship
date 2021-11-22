@@ -58,6 +58,11 @@ section {
     }
   }
 }
+.current-orientation {
+  font-size: 1.2rem;
+  color: $cultured;
+  text-align: center;
+}
 .rotate {
   color: $cultured;
   svg:hover {
@@ -96,6 +101,10 @@ section {
 
 .ship-sunk {
   opacity: 0.2;
+}
+
+.indicate-placement {
+  background: rgba($color: $rebecca, $alpha: 0.55);
 }
 
 .ship {
