@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-import { rotateDomShips, generateDomShip, markedPlacedShip } from '../Dom/dom-helpers.js';
+import { rotateDomShips, generateDomShip, unmarkPlacedShips, markedPlacedShip } from '../Dom/dom-helpers.js';
 import Controller from './Controller.js';
 
 export default class Game {
@@ -18,6 +18,7 @@ export default class Game {
     this.currentShipDOMObj = null;
     this.validate = this.validateDomPlacement.bind(this);
     this.indicate = this.indicateShipPosition.bind(this);
+    this.enableShips = this.enableDomShips.bind(this);
   }
 
   enableRotateButton() {
@@ -38,11 +39,11 @@ export default class Game {
   }
 
   enableDomShipPlacement() {
-    this.playerHumanDOMShips.forEach((ship) =>
-      ship.addEventListener('click', (e) => {
-        this.enableDomShips(e);
-      })
-    );
+    this.playerHumanDOMShips.forEach((ship) => ship.addEventListener('click', this.enableShips));
+  }
+
+  disableDomShipPlacement() {
+    this.playerHumanDOMShips.forEach((ship) => ship.removeEventListener('click', this.enableShips));
   }
 
   resetSelectedValues() {
@@ -51,6 +52,15 @@ export default class Game {
     this.currentShipID = null;
     this.currentShipObj = null;
     this.currentShipDOMObj = null;
+  }
+
+  checkGameReady() {
+    if (this.playerHuman.areShipsPlaced() === true) {
+      this.disableRotateButton();
+      this.disableDomShipPlacement();
+      unmarkPlacedShips(this.playerHumanDOMShips);
+      console.log('READDYYYY');
+    }
   }
 
   validateDomPlacement(e) {
@@ -75,6 +85,7 @@ export default class Game {
       this.settings.player1.ships[this.currentShipID].setPosition(clickedCoord, this.currentShipOrientation);
       markedPlacedShip(this.currentShipDOMObj);
       this.resetSelectedValues();
+      this.checkGameReady();
     }
   }
 
@@ -118,6 +129,14 @@ export default class Game {
       position.addEventListener('mouseover', this.indicate);
     });
   }
+
+  initializePlacement() {
+    this.enableRotateButton();
+    this.enableDomShipPlacement();
+    this.allowDomShipPlacement();
+  }
+
+  initializeGame() {}
 
   // TODO when preparation is finalized, the rotateButton should be disabled;
 }
