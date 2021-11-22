@@ -30,7 +30,6 @@ export default class Gameboard {
     }
     const currentPositions = [];
     this.existingShips().forEach((ship) => currentPositions.push(ship.position));
-
     // compares existing positions with the expected position of the ship
     isValid =
       rotated === true
