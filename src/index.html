@@ -28,35 +28,35 @@
       <section class="player">
         <aside class="ship-info">
           <div
-            class="patrol ship-cont"
+            class="patrol ship-cont you-patrol"
             data-name="patrol"
             data-length="2"
             data-orientation="vertical"
             data-id="0"
           ></div>
           <div
-            class="cruiser1 ship-cont"
+            class="cruiser1 ship-cont you-cruiser1"
             data-name="cruiser1"
             data-length="3"
             data-orientation="vertical"
             data-id="1"
           ></div>
           <div
-            class="cruiser2 ship-cont"
+            class="cruiser2 ship-cont you-cruiser2"
             data-name="cruiser2"
             data-length="3"
             data-orientation="vertical"
             data-id="2"
           ></div>
           <div
-            class="battleship ship-cont"
+            class="battleship ship-cont you-battleship"
             data-name="battleship"
             data-length="4"
             data-orientation="vertical"
             data-id="3"
           ></div>
           <div
-            class="carrier ship-cont"
+            class="carrier ship-cont you-carrier"
             data-name="carrier"
             data-length="5"
             data-orientation="vertical"
@@ -66,6 +66,7 @@
         <div class="board board-you"></div>
         <aside class="controls">
           <div class="game-button-wrapper">
+            <p class="current-orientation">Vertical</p>
             <button class="rotate" title="Rotate Ship">
               <i class="fas fa-sync-alt"></i>
             </button>
@@ -80,11 +81,11 @@
       <section class="ai">
         <div class="board board-ai"></div>
         <aside class="ship-info ship-info-ai">
-          <div class="patrol ship-cont" data-length="2" data-orientation="vertical" data-id="0"></div>
-          <div class="cruiser1 ship-cont" data-length="3" data-orientation="vertical" data-id="1"></div>
-          <div class="cruiser2 ship-cont" data-length="3" data-orientation="vertical" data-id="2"></div>
-          <div class="battleship ship-cont" data-length="4" data-orientation="vertical" data-id="3"></div>
-          <div class="carrier ship-cont" data-length="5" data-orientation="vertical" data-id="4"></div>
+          <div class="patrol ship-cont ai-patrol" data-length="2" data-orientation="vertical" data-id="0"></div>
+          <div class="cruiser1 ship-cont ai-cruiser1" data-length="3" data-orientation="vertical" data-id="1"></div>
+          <div class="cruiser2 ship-cont ai-cruiser2" data-length="3" data-orientation="vertical" data-id="2"></div>
+          <div class="battleship ship-cont ai-battleship" data-length="4" data-orientation="vertical" data-id="3"></div>
+          <div class="carrier ship-cont ai-carrier" data-length="5" data-orientation="vertical" data-id="4"></div>
         </aside>
       </section>
       <div class="error-wrapper">
