@@ -17,6 +17,7 @@ export default class Game {
     this.currentShipObj = null;
     this.currentShipDOMObj = null;
     this.validate = this.validateDomPlacement.bind(this);
+    this.indicate = this.indicateShipPosition.bind(this);
   }
 
   enableRotateButton() {
@@ -83,22 +84,40 @@ export default class Game {
     });
   }
 
-  // allowDomShipPlacement() {
-  //   this.playerHumanDOMPositions.forEach((position) => {
-  //     position.addEventListener('click', validateDomPlacement(this, this.playerHuman));
-  //   });
-  // }
+  clearUnusedIndications() {
+    this.playerHumanDOMPositions.forEach((position) => position.classList.remove('indicate-placement'));
+  }
 
-  // allowDomShipPlacement() {
-  //   this.playerHumanDOMPositions.forEach((position) => {
-  //     position.addEventListener('click', (e) => {
-  //       console.log(this.dataset.coord);
-  //       if(this.playerHuman.board.isPositionValid(parseInt(e.target.dataset.coord), this.currentShipLength, this.currentShipOrientation)){
-  //         this.playerHuman.board.placeShip(parseInt(e.target.))
-  //       }
-  //     });
-  //   });
-  // }
+  indicateShipPosition(e) {
+    this.clearUnusedIndications();
+    if (this.currentShipOrientation === 'horizontal') {
+      for (
+        let i = parseInt(e.target.dataset.coord);
+        i < parseInt(e.target.dataset.coord) + this.currentShipLength;
+        i += 1
+      ) {
+        const nextPoint = document.querySelector(`.board-you [data-coord='${i}']`);
+        if (nextPoint === null) return;
+        nextPoint.classList.add('indicate-placement');
+      }
+    } else {
+      for (
+        let i = parseInt(e.target.dataset.coord);
+        i < parseInt(e.target.dataset.coord) + this.currentShipLength * 10;
+        i += 10
+      ) {
+        const nextPoint = document.querySelector(`.board-you [data-coord='${i}']`);
+        if (nextPoint === null) return;
+        nextPoint.classList.add('indicate-placement');
+      }
+    }
+  }
+
+  enableShipIndication() {
+    this.playerHumanDOMPositions.forEach((position) => {
+      position.addEventListener('mouseover', this.indicate);
+    });
+  }
 
   // TODO when preparation is finalized, the rotateButton should be disabled;
 }
