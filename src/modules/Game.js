@@ -132,6 +132,7 @@ export default class Game {
 
   initializePlacement() {
     this.enableRotateButton();
+    this.enableShipIndication();
     this.enableDomShipPlacement();
     this.allowDomShipPlacement();
   }
