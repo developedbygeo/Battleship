@@ -35,6 +35,7 @@ describe('testing the Player class', () => {
   it('testing positionAiShips', () => {
     player.positionAiShips();
     expect(player.board.currentShips.length).toBe(5);
+    expect(typeof player.board.currentShips[0].position[0]).toBe('number');
   });
 
   it('testing resetShips', () => {
