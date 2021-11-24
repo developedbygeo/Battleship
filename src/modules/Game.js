@@ -6,6 +6,7 @@ export default class Game {
   constructor() {
     this.settings = new Controller();
     this.playerHuman = this.settings.player1;
+    this.playerAI = this.settings.player2;
     this.playerHumanFleet = this.playerHuman.board.existingShips();
     this.playerHumanDOMShips = document.querySelectorAll('.player .ship-cont');
     this.playerHumanDOMPositions = document.querySelectorAll('.board-you .box');
@@ -54,13 +55,16 @@ export default class Game {
     this.currentShipDOMObj = null;
   }
 
-  checkGameReady() {
-    if (this.playerHuman.areShipsPlaced() === true) {
-      this.disableRotateButton();
-      this.disableDomShipPlacement();
-      unmarkPlacedShips(this.playerHumanDOMShips);
-      console.log('READDYYYY');
-    }
+  enableShipIndication() {
+    this.playerHumanDOMPositions.forEach((position) => {
+      position.addEventListener('mouseover', this.indicate);
+    });
+  }
+
+  disableShipIndication() {
+    this.playerHumanDOMPositions.forEach((position) => {
+      position.removeEventListener('mouseover', this.indicate);
+    });
   }
 
   validateDomPlacement(e) {
@@ -95,6 +99,12 @@ export default class Game {
     });
   }
 
+  disallowDomShipPlacement() {
+    this.playerHumanDOMPositions.forEach((position) => {
+      position.removeEventListener('click', this.validate);
+    });
+  }
+
   clearUnusedIndications() {
     this.playerHumanDOMPositions.forEach((position) => position.classList.remove('indicate-placement'));
   }
@@ -124,12 +134,6 @@ export default class Game {
     }
   }
 
-  enableShipIndication() {
-    this.playerHumanDOMPositions.forEach((position) => {
-      position.addEventListener('mouseover', this.indicate);
-    });
-  }
-
   initializePlacement() {
     this.enableRotateButton();
     this.enableShipIndication();
@@ -137,7 +141,20 @@ export default class Game {
     this.allowDomShipPlacement();
   }
 
-  initializeGame() {}
+  checkGameReady() {
+    if (this.playerHuman.areShipsPlaced() === true) {
+      this.disableRotateButton();
+      this.disableDomShipPlacement();
+      this.disableShipIndication();
+      this.disallowDomShipPlacement();
+      unmarkPlacedShips(this.playerHumanDOMShips);
+      this.initializeGame();
+    }
+  }
+
+  initializeGame() {
+    this.settings.gameInit();
+  }
 
   // TODO when preparation is finalized, the rotateButton should be disabled;
 }
