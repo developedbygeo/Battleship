@@ -45,7 +45,7 @@ export default class Gameboard {
     if (!this.currentShips.some((ships) => ships === ship)) {
       this.currentShips.push(ship);
     }
-    ship.setPosition(ship.position[0], 'horizontal');
+    ship.setPosition(coord, ship.orientation);
   }
 
   rotateShip(ship) {
