@@ -48,6 +48,10 @@ describe('testing filterAttackedCells', () => {
     expect(filterAttackedCells(valid, attacked)).toContain(5);
     expect(filterAttackedCells(valid, attacked).length).toBe(2);
   });
+  it('testing undefined for filterAttackedCells', () => {
+    const attacked = [0, 99, 13, 55, 21, 25, 56];
+    expect(filterAttackedCells(undefined, attacked)).toBe(undefined);
+  });
 });
 
 describe('testing findEnemyDirection', () => {
