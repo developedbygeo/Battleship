@@ -1,5 +1,11 @@
 /* eslint-disable class-methods-use-this */
-import { rotateDomShips, generateDomShip, unmarkPlacedShips, markedPlacedShip } from '../Dom/dom-helpers.js';
+import {
+  rotateDomShips,
+  generateDomShip,
+  unmarkPlacedShips,
+  markedPlacedShip,
+  handleStatus,
+} from '../Dom/dom-helpers.js';
 import Controller from './Controller.js';
 
 export default class Game {
@@ -30,7 +36,14 @@ export default class Game {
     this.rotateBtn.removeEventListener('click', rotateDomShips);
   }
 
+  clearUnusedPlacingIndications(ship) {
+    this.playerHumanDOMShips.forEach((shipModel) => {
+      if (shipModel !== ship) shipModel.classList.remove('placing-now');
+    });
+  }
+
   enableDomShips(e) {
+    this.clearUnusedPlacingIndications(e.target);
     e.target.classList.add('placing-now');
     this.currentShipLength = parseInt(e.target.dataset.length);
     this.currentShipOrientation = e.target.dataset.orientation;
@@ -68,6 +81,16 @@ export default class Game {
   }
 
   validateDomPlacement(e) {
+    if (this.currentShipDOMObj === null) {
+      handleStatus(
+        'error-wrapper',
+        'error-title-header',
+        'Captain!',
+        'error-message-p',
+        `Please tap on the ship you want to place!`
+      );
+      return;
+    }
     this.settings.player1.ships[this.currentShipID].orientation = this.currentShipOrientation;
     const clickedCoord = parseInt(e.target.dataset.coord);
     const isRotated = this.currentShipOrientation === 'horizontal';
