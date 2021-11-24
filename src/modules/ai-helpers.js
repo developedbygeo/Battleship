@@ -67,6 +67,7 @@ function findValidXY(cellID, direction = 'vertical') {
 }
 
 function filterAttackedCells(valid, attacked) {
+  if (valid === undefined) return undefined;
   return valid.filter((cell) => !attacked.includes(cell));
 }
 
