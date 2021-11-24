@@ -77,16 +77,21 @@ describe('testing the Controller class', () => {
     expect(document.querySelector('.error-wrapper').classList.contains('err-active')).toBe(true);
   });
 
-  it('testing hasPossibleSunk', () => {
-    game.player2.generateShips();
-    game.player2.positionAiShips();
-    const patrol = game.player2.ships.find((ship) => ship.shipName === 'patrol');
-    patrol.hits = [3, 4];
-    game.handlePossibleSunk(patrol, game.player1);
-    expect(document.querySelector('.ai-patrol').classList.contains('ship-sunk')).toBe(true);
-  });
-
   it('testing selectRandomCell', () => {
     expect(typeof game.selectRandomCell()).toBe('number');
+  });
+
+  it('testing handlePossibleGameOver', () => {
+    game.player1.generateShips();
+    game.player1.positionAiShips();
+    game.turn = 0;
+    game.handlePossibleGameOver(game.player1);
+    expect(game.turn).toBe(1);
+  });
+
+  it('testing gameInit', () => {
+    game.gameInit();
+    expect(game.turn).toBe(0);
+    expect(game.player2.ships.length).toBe(5);
   });
 });
