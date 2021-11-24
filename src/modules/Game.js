@@ -178,6 +178,4 @@ export default class Game {
   initializeGame() {
     this.settings.gameInit();
   }
-
-  // TODO when preparation is finalized, the rotateButton should be disabled;
 }
