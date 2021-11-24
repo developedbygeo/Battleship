@@ -194,8 +194,10 @@ section {
     letter-spacing: 0.15rem;
   }
 }
-.error-message-p {
+.error-message-p::first-letter {
   text-transform: capitalize;
+}
+.error-message-p {
   letter-spacing: 0.1rem;
 }
 
