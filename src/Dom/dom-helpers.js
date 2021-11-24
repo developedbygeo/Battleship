@@ -23,6 +23,7 @@ function disableBoard(boardName) {
 }
 
 function colorCell(cell, hitOrNot) {
+  if (cell === null) return;
   if (hitOrNot) {
     cell.classList.add('hit');
   } else {
@@ -53,8 +54,8 @@ function handleStatus(targetParent, target1, status1, target2 = target1, status2
   document.querySelector(`.${target1}`).textContent = `${status1}`;
   document.querySelector(`.${target2}`).textContent = `${status2}`;
   if (!parentElement.classList.contains('err-active')) parentElement.classList.add('err-active');
-  if (state !== 1) {
-    parentElement.setTimeout(() => {
+  if (state === 1) {
+    setTimeout(() => {
       parentElement.classList.remove('err-active');
     }, 1000);
   }
