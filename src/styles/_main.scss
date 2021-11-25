@@ -17,12 +17,27 @@ header {
   .logo-wrapper {
     background: url('../img/logo.png') center no-repeat;
     background-size: contain;
+    @include mq(sphone-landscape) {
+      height: 75%;
+      width: 75%;
+      justify-self: center;
+      align-self: center;
+      background-size: cover;
+    }
+    @include mq(phone-wide) {
+      height: 75%;
+      width: 75%;
+      justify-self: center;
+      align-self: center;
+      background-size: cover;
+    }
   }
   .logo-text {
     height: 100%;
     @include flex(flex-start, center, row);
     color: $cultured;
     letter-spacing: 0.15rem;
+    pointer-events: none;
   }
 }
 
@@ -37,12 +52,21 @@ main {
   margin: auto;
   @include grid(1fr, repeat(2, 1fr));
   row-gap: 1rem;
+  @include mq(sphone-landscape) {
+    @include grid(repeat(2, 1fr), 1fr);
+  }
+  @include mq(phone-wide) {
+    @include grid(repeat(2, 1fr), 1fr);
+  }
 }
 section {
   height: 100%;
   width: 100%;
   @include grid(0.2fr 1fr 0.2fr, 1fr);
   gap: 0.5rem;
+  @include mq(phone-landscape) {
+    grid-template-columns: 0.2fr auto 0.2fr;
+  }
 }
 
 // PLAYER - aside controls
@@ -57,11 +81,20 @@ section {
       transition: all 350ms ease-in-out;
     }
   }
+  @include mq(sphone-landscape) {
+    height: 35%;
+  }
+  @include mq(phone-wide) {
+    height: 35%;
+  }
 }
 .current-orientation {
   font-size: 1.2rem;
   color: $cultured;
   text-align: center;
+  &::first-letter {
+    text-transform: capitalize;
+  }
 }
 .rotate {
   color: $cultured;
@@ -79,6 +112,14 @@ section {
 // aside ships
 .ship-info {
   @include grid(repeat(2, 1fr), auto);
+  align-items: center;
+  justify-items: center;
+  @include mq(sphone-landscape) {
+    height: 70%;
+  }
+  @include mq(phone-landscape) {
+    gap: 1rem;
+  }
 }
 .ship-cont {
   width: 100%;
@@ -87,6 +128,14 @@ section {
   transition: all 250ms ease-in-out;
   visibility: visible;
   opacity: 1;
+  @include mq(sphone-landscape) {
+    width: 70%;
+    height: 70%;
+  }
+  @include mq(phone-wide) {
+    width: 70%;
+    height: 70%;
+  }
 }
 
 .ship-placed {
@@ -110,24 +159,66 @@ section {
 .ship {
   background: $quick-silver;
 }
-
-.carrier {
-  width: 200%;
-}
 .patrol {
   background: url('../img/patrol.png') center no-repeat;
+  @include mq(sphone) {
+    background-size: contain;
+  }
+  @include mq(sphone-landscape) {
+    background-size: cover;
+  }
+  @include mq(phone-wide) {
+    background-size: cover;
+  }
 }
 .cruiser1 {
   background: url('../img/cruiser.png') center no-repeat;
+  @include mq(sphone) {
+    background-size: cover;
+  }
+  @include mq(sphone-landscape) {
+    background-size: cover;
+  }
+  @include mq(phone-wide) {
+    background-size: cover;
+  }
 }
 .cruiser2 {
   background: url('../img/cruiser.png') center no-repeat;
+  @include mq(sphone) {
+    background-size: cover;
+  }
+  @include mq(sphone-landscape) {
+    background-size: cover;
+  }
+  @include mq(phone-wide) {
+    background-size: cover;
+  }
 }
 .battleship {
   background: url('../img/battleship.png') center no-repeat;
+  @include mq(sphone) {
+    background-size: cover;
+  }
+  @include mq(sphone-landscape) {
+    background-size: cover;
+  }
+  @include mq(phone-wide) {
+    background-size: cover;
+  }
 }
 .carrier {
   background: url('../img/carrier.png') center no-repeat;
+  grid-area: 3/1/3/3;
+  @include mq(sphone) {
+    background-size: cover;
+  }
+  @include mq(sphone-landscape) {
+    background-size: cover;
+  }
+  @include mq(phone-wide) {
+    background-size: cover;
+  }
 }
 // Board
 .board {
@@ -138,6 +229,12 @@ section {
   -webkit-box-shadow: 3px 0px 9px 3px rgba($color: $black-fogra, $alpha: 0.35);
   box-shadow: 3px 0px 9px 3px rgba($color: $black-fogra, $alpha: 0.35);
   border-radius: 0.5rem;
+  @include mq(phone-landscape) {
+    width: 100%;
+    height: 90%;
+    justify-self: center;
+    align-self: center;
+  }
 }
 .box {
   border: 1px solid rgba($color: $onyx, $alpha: 0.75);
@@ -161,6 +258,9 @@ section {
 // AI
 .ship-info-ai {
   grid-area: 1/3/1/4;
+  @include mq(phone-landscape) {
+    gap: 1rem;
+  }
 }
 .board-ai {
   grid-area: 1/2/1/3;
@@ -175,7 +275,6 @@ section {
   position: absolute;
   height: 100%;
   width: 100%;
-  // background: rgba($color: #000, $alpha: 0.9);
   @include flex(center, center, column);
   .error-msg-wrapper {
     color: $cultured;
@@ -189,6 +288,13 @@ section {
     align-items: center;
     background: rgba($color: $eerie, $alpha: 0.95);
     border-radius: 1rem;
+    text-align: center;
+    @include mq(sphone-landscape) {
+      width: 50%;
+    }
+    @include mq(phone-wide) {
+      width: 50%;
+    }
   }
   .error-title {
     letter-spacing: 0.15rem;
