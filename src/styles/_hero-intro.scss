@@ -11,13 +11,13 @@
   @include grid(1fr, 1fr);
   justify-items: center;
   align-items: center;
-  width: 95%;
+  width: auto;
   margin: auto;
   position: relative;
   h1 {
     color: $cultured;
     font-size: 5rem;
-    width: 95%;
+    width: auto;
     letter-spacing: 0.2rem;
     overflow: hidden;
     border-right: 0.15rem solid $portland;
@@ -34,6 +34,10 @@
   transform: translate(-50%, -50%);
   width: 50%;
   height: 7vh;
+  @include mq(phone-wide) {
+    height: 10vh;
+    text-align: center;
+  }
   button {
     width: 100%;
     height: 100%;
@@ -44,6 +48,9 @@
     -webkit-box-shadow: 9px 5px 12px -3px rgba(0, 0, 0, 0.74);
     -moz-box-shadow: 9px 5px 12px -3px rgba(0, 0, 0, 0.74);
     transition: all 100ms ease-in-out;
+    @include mq(phone-wide) {
+      width: 60%;
+    }
   }
   button:hover,
   button:focus {
