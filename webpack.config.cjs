@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-// const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -24,9 +24,9 @@ module.exports = {
   plugins: [
     new webpack.ids.HashedModuleIdsPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    // new CopyWebpackPlugin({
-    //   patterns: [{ from: './src/icons/', to: './icons' }],
-    // }),
+    new CopyWebpackPlugin({
+      patterns: [{ from: './src/icons/', to: './icons' }],
+    }),
     new HtmlWebpackPlugin({
       template: './src/index.html',
       inject: true,
@@ -55,10 +55,7 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env'],
-            plugins: [
-              '@babel/plugin-proposal-object-rest-spread',
-              '@babel/plugin-transform-runtime',
-            ],
+            plugins: ['@babel/plugin-proposal-object-rest-spread', '@babel/plugin-transform-runtime'],
             cacheDirectory: true,
           },
         },
@@ -80,9 +77,7 @@ module.exports = {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
           name(module) {
-            const packageName = module.context.match(
-              /[\\/]node_modules[\\/](.*?)([\\/]|$)/
-            )[1];
+            const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
             return `npm.${packageName.replace('@', '')}`;
           },
         },
