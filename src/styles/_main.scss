@@ -80,6 +80,7 @@ section {
   margin: auto;
   button {
     padding: 2rem;
+    font-size: 2rem;
     svg {
       transition: all 350ms ease-in-out;
     }
@@ -118,12 +119,17 @@ section {
   align-items: center;
   justify-items: center;
   @include mq(sphone-landscape) {
-    height: 70%;
+    height: 60%;
+    align-self: center;
   }
   @include mq(phone-landscape) {
     gap: 1rem;
   }
   @include mq(tablet-landscape) {
+    height: 65%;
+    align-self: center;
+  }
+  @include mq(desktop) {
     height: 65%;
     align-self: center;
   }
@@ -147,6 +153,10 @@ section {
     height: 80%;
   }
   @include mq(tablet-landscape) {
+    width: 100%;
+    height: 60%;
+  }
+  @include mq(desktop) {
     width: 100%;
     height: 60%;
   }
@@ -190,6 +200,9 @@ section {
   @include mq(tablet-landscape) {
     background-size: contain;
   }
+  @include mq(desktop) {
+    background-size: contain;
+  }
 }
 .cruiser1 {
   background: url('../img/cruiser.png') center no-repeat;
@@ -206,6 +219,9 @@ section {
     background-size: cover;
   }
   @include mq(tablet-landscape) {
+    background-size: cover;
+  }
+  @include mq(desktop) {
     background-size: cover;
   }
 }
@@ -226,6 +242,9 @@ section {
   @include mq(tablet-landscape) {
     background-size: cover;
   }
+  @include mq(desktop) {
+    background-size: cover;
+  }
 }
 .battleship {
   background: url('../img/battleship.png') center no-repeat;
@@ -242,6 +261,9 @@ section {
     background-size: cover;
   }
   @include mq(tablet-landscape) {
+    background-size: cover;
+  }
+  @include mq(desktop) {
     background-size: cover;
   }
 }
@@ -263,6 +285,9 @@ section {
   @include mq(tablet-landscape) {
     background-size: cover;
   }
+  @include mq(desktop) {
+    background-size: cover;
+  }
 }
 // Board
 .board {
@@ -273,6 +298,12 @@ section {
   -webkit-box-shadow: 3px 0px 9px 3px rgba($color: $black-fogra, $alpha: 0.35);
   box-shadow: 3px 0px 9px 3px rgba($color: $black-fogra, $alpha: 0.35);
   border-radius: 0.5rem;
+  @include mq(sphone-landscape) {
+    width: 100%;
+    height: 65%;
+    justify-self: center;
+    align-self: center;
+  }
   @include mq(phone-landscape) {
     width: 100%;
     height: 90%;
@@ -280,6 +311,10 @@ section {
     align-self: center;
   }
   @include mq(tablet-landscape) {
+    height: 65%;
+    align-self: center;
+  }
+  @include mq(desktop) {
     height: 65%;
     align-self: center;
   }
