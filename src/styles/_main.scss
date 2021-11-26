@@ -286,7 +286,7 @@ section {
     background-size: cover;
   }
   @include mq(desktop) {
-    background-size: cover;
+    background-size: contain;
   }
 }
 // Board
