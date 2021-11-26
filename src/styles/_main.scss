@@ -58,6 +58,9 @@ main {
   @include mq(phone-wide) {
     @include grid(repeat(2, 1fr), 1fr);
   }
+  @include mq(tablet-portrait) {
+    @include grid(1fr, repeat(2, 1fr));
+  }
 }
 section {
   height: 100%;
@@ -120,6 +123,10 @@ section {
   @include mq(phone-landscape) {
     gap: 1rem;
   }
+  @include mq(tablet-landscape) {
+    height: 65%;
+    align-self: center;
+  }
 }
 .ship-cont {
   width: 100%;
@@ -135,6 +142,13 @@ section {
   @include mq(phone-wide) {
     width: 70%;
     height: 70%;
+  }
+  @include mq(tablet-portrait) {
+    height: 80%;
+  }
+  @include mq(tablet-landscape) {
+    width: 100%;
+    height: 60%;
   }
 }
 
@@ -168,7 +182,13 @@ section {
     background-size: cover;
   }
   @include mq(phone-wide) {
-    background-size: cover;
+    background-size: contain;
+  }
+  @include mq(tablet-portrait) {
+    background-size: contain;
+  }
+  @include mq(tablet-landscape) {
+    background-size: contain;
   }
 }
 .cruiser1 {
@@ -180,6 +200,12 @@ section {
     background-size: cover;
   }
   @include mq(phone-wide) {
+    background-size: cover;
+  }
+  @include mq(tablet-portrait) {
+    background-size: cover;
+  }
+  @include mq(tablet-landscape) {
     background-size: cover;
   }
 }
@@ -194,6 +220,12 @@ section {
   @include mq(phone-wide) {
     background-size: cover;
   }
+  @include mq(tablet-portrait) {
+    background-size: cover;
+  }
+  @include mq(tablet-landscape) {
+    background-size: cover;
+  }
 }
 .battleship {
   background: url('../img/battleship.png') center no-repeat;
@@ -204,6 +236,12 @@ section {
     background-size: cover;
   }
   @include mq(phone-wide) {
+    background-size: cover;
+  }
+  @include mq(tablet-portrait) {
+    background-size: cover;
+  }
+  @include mq(tablet-landscape) {
     background-size: cover;
   }
 }
@@ -217,6 +255,12 @@ section {
     background-size: cover;
   }
   @include mq(phone-wide) {
+    background-size: cover;
+  }
+  @include mq(tablet-portrait) {
+    background-size: cover;
+  }
+  @include mq(tablet-landscape) {
     background-size: cover;
   }
 }
@@ -233,6 +277,10 @@ section {
     width: 100%;
     height: 90%;
     justify-self: center;
+    align-self: center;
+  }
+  @include mq(tablet-landscape) {
+    height: 65%;
     align-self: center;
   }
 }
