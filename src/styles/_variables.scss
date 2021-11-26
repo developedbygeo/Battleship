@@ -64,7 +64,7 @@ $rebecca: #5d2e8c;
     }
   }
   @if $breakpoint==phone-wide {
-    @media only screen and (min-width: 480px) {
+    @media only screen and (min-width: 480px) and (orientation: landscape) {
       @content;
     }
   }
@@ -88,8 +88,8 @@ $rebecca: #5d2e8c;
       @content;
     }
   }
-  @if $breakpoint==tablet {
-    @media only screen and (min-width: 768px) {
+  @if $breakpoint==tablet-portrait {
+    @media only screen and (min-width: 768px) and (orientation: portrait) {
       @content;
     }
   }
@@ -99,7 +99,7 @@ $rebecca: #5d2e8c;
     }
   }
   @if $breakpoint==tablet-landscape {
-    @media only screen and (min-width: 1024px) and (max-width: 1366px) and(max-height: 840px) and (orientation: landscape) {
+    @media only screen and (min-width: 1024px) and (max-width: 1367px) and(max-height: 840px) and (orientation: landscape) {
       @content;
     }
   }
