@@ -17,8 +17,8 @@ html {
   @include mq(phone) {
     font-size: 60%;
   }
-  @include mq(tablet) {
-    font-size: 70.5%;
+  @include mq(tablet-portrait) {
+    font-size: 79.5%;
   }
   @include mq(tablet-wide) {
     font-size: 80%;
