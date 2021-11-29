@@ -43,6 +43,7 @@ npm run watch
 - FontAwesome
 - Webpack
 - NPM
+- Jest
 
 For a more detailed overview of the development & production dependencies, please check `package.json`.
 
@@ -50,9 +51,13 @@ For a more detailed overview of the development & production dependencies, pleas
 
 <https://developedbygeo.github.io/Battleship/>
 
+## Testing
+
+This project has been developed with TDD in mind. The existing tests cover the logic, however they do not cover most of the DOM manipulation.
+
 ## Contributing
 
-Contributions are certainly welcome. Please feel free to open an issue/PR if there is something you would like to be changed.
+Contributions are certainly welcome. Please feel free to open an issue/PR if there is something you would like to be changed. In this case, kindly update the respective tests.
 
 ## Acknowledgements
 
