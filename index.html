@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="apple-touch-icon" sizes="57x57" href="./icons/apple-icon-57x57.png" />
+    <link rel="apple-touch-icon" sizes="60x60" href="./icons/apple-icon-60x60.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="./icons/apple-icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="./icons/apple-icon-76x76.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="./icons/apple-icon-114x114.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="./icons/apple-icon-120x120.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="./icons/apple-icon-144x144.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="./icons/apple-icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-icon-180x180.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="./icons/android-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="./icons/favicon-96x96.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16x16.png" />
+    <link rel="manifest" href="./icons/manifest.json" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="msapplication-TileImage" content="ms-icon-144x144.png" />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="stylesheet" href="./main.css" />
+    <title>Battleship</title>
+  <script defer src="npm.babel.134006251c5d01db8402.js"></script><script defer src="npm.mini-css-extract-plugin.81a3307defc67dccf39d.js"></script><script defer src="npm.lodash.1b08b19d82eaed9ae313.js"></script><script defer src="npm.fortawesome.3f86d9ebec8d8c3e39a1.js"></script><script defer src="main.bee98519265159bafd02.js"></script><link href="main.css" rel="stylesheet"></head>
+  <body>
+    <header>
+      <div class="logo-wrapper"></div>
+      <div class="logo-text">
+        <h1>BATTLESHIP</h1>
+      </div>
+    </header>
+    <div class="hero-intro">
+      <div class="title-cont"><h1 class="title">BATTLESHIP</h1></div>
+      <div class="button-wrapper">
+        <button class="play-now">Play Now!</button>
+      </div>
+      <div class="img-cont">
+        <div class="left-img-cont"></div>
+        <div class="right-img-cont"></div>
+      </div>
+    </div>
+    <main>
+      <section class="player">
+        <aside class="ship-info">
+          <div
+            class="patrol ship-cont you-patrol"
+            data-name="patrol"
+            data-length="2"
+            data-orientation="vertical"
+            data-id="0"
+          ></div>
+          <div
+            class="cruiser1 ship-cont you-cruiser1"
+            data-name="cruiser1"
+            data-length="3"
+            data-orientation="vertical"
+            data-id="1"
+          ></div>
+          <div
+            class="cruiser2 ship-cont you-cruiser2"
+            data-name="cruiser2"
+            data-length="3"
+            data-orientation="vertical"
+            data-id="2"
+          ></div>
+          <div
+            class="battleship ship-cont you-battleship"
+            data-name="battleship"
+            data-length="4"
+            data-orientation="vertical"
+            data-id="3"
+          ></div>
+          <div
+            class="carrier ship-cont you-carrier"
+            data-name="carrier"
+            data-length="5"
+            data-orientation="vertical"
+            data-id="4"
+          ></div>
+        </aside>
+        <div class="board board-you"></div>
+        <aside class="controls">
+          <div class="game-button-wrapper">
+            <p class="current-orientation">Vertical</p>
+            <button class="rotate" title="Rotate Ship">
+              <i class="fas fa-sync-alt"></i>
+            </button>
+          </div>
+          <div class="game-button-wrapper">
+            <button class="play-again" title="Play again!">
+              <i class="fas fa-power-off"></i>
+            </button>
+          </div>
+        </aside>
+      </section>
+      <section class="ai">
+        <div class="board board-ai"></div>
+        <aside class="ship-info ship-info-ai">
+          <div class="patrol ship-cont ai-patrol" data-length="2" data-orientation="vertical" data-id="0"></div>
+          <div class="cruiser1 ship-cont ai-cruiser1" data-length="3" data-orientation="vertical" data-id="1"></div>
+          <div class="cruiser2 ship-cont ai-cruiser2" data-length="3" data-orientation="vertical" data-id="2"></div>
+          <div class="battleship ship-cont ai-battleship" data-length="4" data-orientation="vertical" data-id="3"></div>
+          <div class="carrier ship-cont ai-carrier" data-length="5" data-orientation="vertical" data-id="4"></div>
+        </aside>
+      </section>
+      <div class="error-wrapper">
+        <div class="error-msg-wrapper">
+          <div class="btn-wrapper">
+            <button class="remove-err"><i class="fas fa-times"></i></button>
+          </div>
+          <div class="error-title"><h2 class="error-title-header">Test</h2></div>
+          <div class="error-message"><p class="error-message-p">Someboooodi won</p></div>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div class="txt-wrapper">
+        <p class="txt">&#169;<span class="dev">developedbygeo</span></p>
+      </div>
+      <div class="img-wrapper">
+        <a class="gh-link" href="https://github.com/developedbygeo" target="_blank"><i class="fab fa-github"></i></a>
+      </div>
+    </footer>
+  </body>
+</html>
